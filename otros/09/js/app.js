@@ -27,6 +27,7 @@ function initScene() {
             meteor = document.createElement('a-entity')
             meteor.setAttribute('geometry', { primitive: 'sphere', radius: Math.random() * 3 + 0.5 })
             meteor.setAttribute('material', { shader: 'flat', src: 'https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/otros/08/text1.jpg' })
+            meteor.setAttribute('class', 'meteor')
             meteor.setAttribute('shootable', '')
             meteor.object3D.position.set(pos.x, pos.y, pos.z)
 
@@ -43,8 +44,8 @@ AFRAME.registerComponent('shootable', {
         //cuando hagan click
         this.el.addEventListener('click', () => {
             this.el.parentNode.removeChild(this.el)
-            //console.log("cazado")
             document.querySelector('[text]').setAttribute('value', `${++score} meteoritos cazados`)
         })
     }
 })
+//Mejoras -> Cambios de luz + sonidos 
