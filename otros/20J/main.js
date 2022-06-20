@@ -19,6 +19,6 @@ electron.app.on('ready', () => {
     });
 
   //-- Cargar interfaz gráfica en HTML
-  win.loadFile("index.html");
+  win.loadFile("prueba.html");
 
 });
