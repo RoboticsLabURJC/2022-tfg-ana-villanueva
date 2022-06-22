@@ -14,13 +14,13 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: TFG 2022 Ana Villanueva Ortiz (Weblog)
-email: carlos2caminero@gmail.com
+email: a.villanueva.2018@alumnos.urjc.es
 description: >- # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
 #twitter_username: username
-github_username: Carlosalpha1
+github_username: anavillanuevaurjc
 minimal_mistakes_skin: dark
 search: true
 
@@ -58,22 +58,16 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "Carlos Caminero Abad"
-  avatar : "/assets/images/bio-photo.png"
-  bio    : "Estudiante de Ingeniería de Robótica Software"
+  name   : "Ana Villanueva Ortiz"
+  avatar : "/assets/images/bio-photo.png" # FOTO
+  bio    : "Estudiante de Ingeniería de Sistemas Audiovisuales y Multimedia"
   links:
-    - label: "robotica_movil"
-      icon: "fas fa-fw fa-link"
-      url: "https://carlos2caminero.wixsite.com/mobilerobotics"
-    - label: "robotica_servicio"
-      icon: "fas fa-fw fa-link"
-      url: "https://github.com/Carlosalpha1/robotica_servicio/wiki"
     # - label: "twitter"
     #   icon: "fab fa-fw fa-twitter-square"
     #   url: "https://twitter.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/Carlosalpha1"
+      url: "https://github.com/anavillanuevaurjc"
     # - label: "Instagram"
     #   icon: "fab fa-fw fa-instagram"
     #   url: "https://instagram.com/"
