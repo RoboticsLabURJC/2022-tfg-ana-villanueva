@@ -1,0 +1,9 @@
+main:
+  - title: "Publicaciones"
+    url: /
+  - title: "Categorías"
+    url: /categories/
+  - title: "Etiquetas"
+    url: /tags/
+  - title: "Sobre mí"
+    url: /about/
