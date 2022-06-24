@@ -1,0 +1,53 @@
+<head>
+    <title>My A-Frame Scene</title>
+    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+  </head>
+  
+  <body>
+    <a-scene>
+        <!-- 3 -->
+        <a-box material ="color: green"
+            position="-2 1 -3"
+            event-set__mouseenter="material.color: blue"
+            event-set__click="material.color: black">
+        </a-box>
+
+        <a-box material ="color: green"
+            position="0 0 -3"
+            event-set__click="material.color: red"
+            event-set__mouseenter="material.color: blue">
+        </a-box>
+
+        <a-box material ="color: green"
+            position="2 0 -3"
+            event-set__click="material.color: red"
+            event-set__mouseenter="material.color: blue">
+        </a-box>
+
+        <!-- 3 -->
+
+        <a-box material ="color: pink"
+            position="-2 3 -3"
+            event-set__click="material.color: red"
+            event-set__mouseenter="material.color: blue"
+            class="pink">
+            
+        </a-box>
+
+        <a-box material ="color: green"
+            position="0 3 -3"
+            event-set__click="material.color: red"
+            event-set__mouseenter="material.color: blue">
+        </a-box>
+
+        <a-box material ="color: green"
+            position="2 3 -3"
+            event-set__click="material.color: red"
+            event-set__mouseenter="material.color: blue">
+        </a-box>
+
+    
+      <a-camera><a-cursor></a-cursor></a-camera>
+    </a-scene>
+</body>
