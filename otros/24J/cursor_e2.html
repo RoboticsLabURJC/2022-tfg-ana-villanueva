@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  
+</head>
+  <body>
+    <a-scene>
+      <!--
+        Cursor
+            -A
+            -B
+            Al usar VR el controlador A desaparece 
+      -->
+      <!--
+        <a-camera>
+            <a-cursor>
+                //Creación cursor A
+            </a-cursor>
+        </a-camera>
+      -->
+      
+      <a-camera>
+        <a-entity 
+        cursor="fuse: true; fuseTimeout: 2000"
+        geometry="primitive: box; width:0.1; height:0.1" 
+        material="color:red" 
+        position="0 0 -2">
+        </a-entity>
+      </a-camera>
+      
+      <a-box animation="property:rotation; from: 0 0 0; to: 0 360 0; dur:2000; startEvents: click"position="0 0 -5" color="blue"></a-box>
+    
+      <!--
+        Gazzed sirve cuando no tenemos cursor - se ha de mantener la mirada unos instantes
+      -->
+
+      
+    </a-scene>
+  </body>
+</html>
