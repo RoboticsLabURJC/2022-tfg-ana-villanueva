@@ -1,0 +1,52 @@
+<!--
+    https://www.youtube.com/watch?v=nRK6-FKobis
+    https://www.youtube.com/watch?v=HrLsr-nzZGA
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+    <script>
+        window.addEventListener('load', initScene)
+        function initScene(){
+            var box = document.querySelector('.caja');
+            box.addEventListener("mouseenter", function()
+            {
+                console.log("Mouseenter box")
+                box.setAttribute("scale", 
+                {
+                    x: 0.5, y: 2, z: 5.9
+                })
+            });
+        }
+    </script>
+</head>
+  <body>
+    <a-scene>
+
+        <!--
+            Unicamente se modifica el tamaño de una de las cajas
+        -->
+
+        <a-camera position="0 0 5">
+            <a-cursor color = "yellow"
+            raycaster="objects: .caja">
+            </a-cursor>
+        </a-camera>
+
+        <a-box class="caja" material ="color: pink"
+            position="-2 0 -3">
+        </a-box>
+
+        <a-box class="caja" material ="color: black"
+            position="0 0 -3">
+        </a-box>
+
+        <a-box class="caja" material ="color: pink"
+            position="2 0 -3">
+        </a-box>
+    </a-scene>
+  </body>
+</html>
