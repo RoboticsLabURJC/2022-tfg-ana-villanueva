@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<head>
+  <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <a-assets>
+      <audio id="audiosource" 
+             src="https://cdn.glitch.com/33e6ee3c-54b2-484c-b12f-661ab76e8143%2FThe%20Blue%20Danube%20Waltz%20-%20Johann%20Strauss%20II%20(Mp3Goo.com).mp3?1497312815724"
+             crossorigin="anonymous"></audio>
+    </a-assets>
+    <a-entity id="entity" sound="src: #audiosource;
+                                 loop: true;
+                                 autoplay: true;
+                                 volume: 2;" ></a-entity>
+  </a-scene>
+  <script>
+    var entity = document.querySelector('#entity');
+    setInterval(function () {
+      var soundComponent = entity.components.sound;
+      var audioSource = soundComponent.pool.children[0].source;
+      if (!audioSource) {
+        console.log('...loading...');
+        return;
+      }
+      var audioContext = audioSource.context;
+      console.log('currentTime: %f', audioContext.currentTime);
+    }, 500);
+  </script>
+</body>
