@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+  </head>
+  <!--
+    Al hacer click en objeto se inicia sonido
+    Al pasar sobre en objeto se inicia sonido
+  -->
+  <body>
+    <a-scene>
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
+
+      <a-entity
+      id="plane"
+      geometry="primitive: plane; width: 10000; height: 10000"
+      material="color: grey"
+      rotation="-90 0 0">
+      </a-entity>
+      <a-entity
+      id="cylinder"
+      geometry="primitive: cylinder; radius:0.5; height: 1.5"
+      material="color: blue"
+      position="0 0 -5"
+      sound="src: url(https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/otros/28J/Tit%C3%ADMePregunto.mp3); on: mouseenter"
+      >
+      </a-entity>
+
+      <a-sound
+      geometry="primitive: box" material="color: red" position="0 3 -5"
+      sound="src: url(https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/otros/28J/Tit%C3%ADMePregunto.mp3); on: click"
+      ></a-sound>
+
+    </a-scene>
+  </body>
+</html>

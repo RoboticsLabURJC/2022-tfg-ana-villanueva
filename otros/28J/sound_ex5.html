@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+    <script>
+        AFRAME.registerComponent('soundcontroller', {
+            schema: {
+                
+            },
+            //
+            init: function () {
+                this.el.addEventListener('click', function(ev){
+                let method = ev.srcElement.id;
+                console.log(method)
+                let speaker = document.querySelector('#cylinder')
+                if (method == "play"){
+                    speaker.components.sound.playSound();
+                }else if (method == "pause"){
+                    speaker.components.sound.pauseSound();
+                }else if (method == "stop"){
+                    speaker.components.sound.stopSound();
+                }
+
+                });
+            },
+        });
+      </script>
+</head>
+  <!--
+    Methods:  pauseSound playSound stopSound
+  -->
+  <body>
+    <a-scene>
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
+
+      <a-entity
+      id="plane"
+      geometry="primitive: plane; width: 10000; height: 10000"
+      material="color: grey"
+      rotation="-90 0 0">
+      </a-entity>
+      <a-entity
+      id="cylinder"
+      geometry="primitive: cylinder; radius:0.5; height: 1.5"
+      material="color: yellow"
+      position="0 0 -5"
+      sound="src: url(https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/otros/28J/Tit%C3%ADMePregunto.mp3); autoplay: false; on: click"
+      animation="property: position; from: 0 0 -10; to: 0 0 0; dur: 10000; dir: alternate; loop: true">
+      </a-entity>
+
+      <a-box soundcontroller id="play" material="color: green" position="-2 2 -5" scale="0.3 0.3 0.3"></a-box>
+      <a-box soundcontroller id="pause" material="color: blue" position="0 2 -5" scale="0.3 0.3 0.3"></a-box>
+      <a-box soundcontroller id="stop" material="color: red" position="2 2 -5" scale="0.3 0.3 0.3"></a-box>
+
+    </a-scene>
+  </body>
+
+</html>
