@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+
+
+    <script>
+        AFRAME.registerComponent('colorcontroller', {
+            schema: {
+                
+            },
+            //
+            init: function () {
+                this.el.addEventListener('click', function(ev){
+                let identify = ev.srcElement.id;
+                console.log(identify)
+                let cylinder = document.querySelector('#cylinder')
+                let sphere = document.querySelector('#sphere')
+                let box = document.querySelector('#box')
+
+                cylinder.setAttribute("material", 
+                {
+                    color: 'green'
+                })
+/*
+                sphere.setAttribute("scale", 
+                {
+                    x: 0.5, y: 2, z: 5.9
+                })
+
+                box.setAttribute("scale", 
+                {
+                    x: 0.5, y: 2, z: 5.9
+                })
+*/
+                });
+            },
+        });
+      </script>
+
+  </head>
+  <body>
+    <a-scene>
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
+
+      <a-entity 
+        id="lightSphere" 
+        geometry="primitive:sphere" 
+        material="color: yellow; shader: flat" 
+        light="type: point" 
+        position="0 6 0"
+        >
+      </a-entity>
+
+      <a-entity
+      id="plane"
+      geometry="primitive: plane; width: 10000; height: 10000"
+      material="color: grey"
+      rotation="-90 0 0">
+      </a-entity>
+
+      <a-entity
+      colorcontroller
+      id="sphere"
+      geometry="primitive: sphere"
+      scale="0.3 0.3 0.3"
+      material="color: blue"
+      position="0 0 -5"
+      animation="property: position; from: 0 2 0; to: 0 2 -5 dur: 90000; dir: alternate; loop: true">
+      </a-entity>
+
+      <a-entity
+      colorcontroller
+      id="cylinder"
+      geometry="primitive: cylinder"
+      scale="0.3 0.3 0.3"
+      material="color: green"
+      position="-2 2 -5"
+      animation="property: position; from: -2 2 -5; to: -2 2 0 dur: 90000; dir: alternate; loop: true">
+      </a-entity>
+
+      <a-entity
+      colorcontroller
+      id="box"
+      geometry="primitive: box"
+      scale="0.3 0.3 0.3"
+      material="color: green"
+      position="2 2 -5"
+      animation="property: position; from: 2 2 -5; to: 2 2 0 dur: 90000; dir: alternate; loop: true">
+      </a-entity>
+
+      
+    </a-scene>
+  </body>
+</html>
