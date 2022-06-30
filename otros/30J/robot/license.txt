@@ -1,0 +1,11 @@
+Model Information:
+* title:	Robot Victor Gonzalez
+* source:	https://sketchfab.com/3d-models/robot-victor-gonzalez-8737e5f54f454a01a15fe54c0e4843f3
+* author:	Victor Gonzalez (https://sketchfab.com/vjgonzal)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Robot Victor Gonzalez" (https://sketchfab.com/3d-models/robot-victor-gonzalez-8737e5f54f454a01a15fe54c0e4843f3) by Victor Gonzalez (https://sketchfab.com/vjgonzal) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
