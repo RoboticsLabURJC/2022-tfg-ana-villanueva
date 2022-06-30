@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+  </head>
+
+  <!--
+    https://www.youtube.com/watch?v=CsXNfoXEJ2w <-- Youtube video
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v$npm_package_version/dist/aframe-physics-system.min.js"></script>
+  -->
+  <body>
+    <a-scene physics="driver: ammo; debug: true; debugDrawMode: 1" background="color: pink">
+      <a-assets>
+        <img id="picture01" src="https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/otros/30J/text1.jpg">
+      </a-assets>
+
+
+      <a-plane
+      ammo-body="type: static;"
+      rotation="-90 0 0"
+      material="color:grey"
+      scale="15 15 15"></a-plane>
+
+      <a-sphere
+      material="src: #picture01"
+      position="2 3 -10"
+      radius="0.5"
+      ammo-body="type: dynamic;"
+      ammo-shape="type: sphere;"
+      ></a-sphere>
+
+      <a-sphere
+      material="src: #picture01"
+      position="-2 3 -10"
+      radius="0.5"
+      ammo-body="type: kinematic;"
+      ammo-shape="type: sphere;"
+      velocity="0 0 2"
+      ></a-sphere>
+
+    </a-scene>
+
+  </body>
+</html>
