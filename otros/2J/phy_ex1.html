@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+  </head>
+
+  <!--
+    https://www.youtube.com/watch?v=CsXNfoXEJ2w <-- Youtube video
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v$npm_package_version/dist/aframe-physics-system.min.js"></script>
+  -->
+  <body>
+    <a-scene physics="driver: ammo; debug: true; debugDrawMode: 1" background="color: pink">
+      <a-assets>
+        <img id="picture01" src="https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/otros/30J/text1.jpg">
+      </a-assets>
+
+        <a-entity camera position="0 1.6 5" look-controls wasd-controls></a-entity>
+
+        <a-plane ammo-body="type: static" ammo-shape="type: box"
+            position="0 0 -4" rotation="-90 0 0" width="8" height="8"
+            color="yellow"></a-plane>
+
+        <a-box ammo-body="type: dynamic" ammo-shape="type: box"
+            position="0 4 -2" width="3" height="2" depth="1"
+            color="red"></a-box>
+            
+        <a-box ammo-body="type: dynamic" ammo-shape="type: box"
+            position="2 10 0" width="1" height="1" depth="1"
+            color="blue"></a-box>
+
+    </a-scene>
+
+  </body>
+</html>

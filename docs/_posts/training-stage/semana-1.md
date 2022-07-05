@@ -33,6 +33,26 @@ Realmente esta semana no es la primera, sino la tercera semana en la que me dedi
   Los modelos son obtenidos en la siguiente página: 
   > https://sketchfab.com/3d-models
 
+  > **Physics**
+
+  - Gravedad 
+
+  - Impulso en los cuerpos
+
+  - Velocidad uniforme
+
+  Nota: Los ejercicios realizados pueden contarse en la carpeta 2J.
+
+  > **KeyBoard**
+
+  - Existen dos formas de definir una camara:
+    a-camera 
+    a-entity camera 
+
+
+
+  
+
 **Python** 
 > **Resolución del problema de carga al utilizar la etiqueta 'assets'**
 

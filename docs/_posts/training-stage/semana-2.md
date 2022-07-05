@@ -1,0 +1,73 @@
+---
+title: "Semana 1. Aframe"
+categories:
+  - Etapa de Entrenamiento
+  - Junio
+tags:
+  - A-frame
+  - Python 
+youtubeId: 
+---
+
+Realmente esta semana no es la primera, sino la tercera semana en la que me dedico a trastear con A-frame. En semanas anteriores observe la necesidad de lanzar mis páginas web en un servidor, ya que ciertas etiquetas no funcionaban correctamente. Las etiquetas problematicas son 'assets' y la física, por ello, se ha decidido usar Python para lanzar un servidor.
+
+
+**A-frame**. 
+
+> **Resolución del problema de movimiento al utilizar físicas simples**
+
+  Para el correcto funcionamiento de las físicas he utilizado los siguientes scripts en la cabecera del HTML. 
+
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+
+  Por otro lado, se ha de indicar en la escena que el drive es ammo y leer la sintaxis para su correcto funcionamiento.
+
+  > **Modelado 3D - glTF**
+
+  El uso de modelos glTF creados por otros usuarios es sencillo, pero es necesario el uso del servidor Python, ya que en caso contrario no será renderizado. 
+  Los modelos son obtenidos en la siguiente página: 
+  > https://sketchfab.com/3d-models
+
+  > **Physics**
+
+  - Gravedad 
+
+  - Impulso en los cuerpos
+
+  - Velocidad uniforme
+
+  Nota: Los ejercicios realizados pueden contarse en la carpeta 2J.
+
+  > **KeyBoard**
+
+  - Existen dos formas de definir una camara:
+    a-camera 
+    a-entity camera 
+
+
+
+  
+
+**Python** 
+> **Resolución del problema de carga al utilizar la etiqueta 'assets'**
+
+Primera prueba de lanzamiento:
+[Lanzamiento del HTML en el servidor de python: ](https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/docs/images/pythonserver_cmd.png)
+
+Ruta: No es necesario utilizar una ruta, ya que se abre directamente en el navegador (no válido)
+
+Segunda prueba de lanzamiento:
+[Lanzamiento del HTML en el servidor de python: ](https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/docs/images/pythonserver_cmdC.png)
+
+Ruta: localhost:PUERTO/nombre.html. 
+
+Mediante el segundo método de lanzamiento puedo visualizar texturas, pero el problema de la física continua.
+
+
+
+
