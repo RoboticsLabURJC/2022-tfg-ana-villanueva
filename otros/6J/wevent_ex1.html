@@ -1,0 +1,34 @@
+
+<!--
+    NO FUNCIONA, PASA AL SIGUIENTE EJEMPLO
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+    <script>
+        
+        // Registering component in foo-component.js
+        AFRAME.registerComponent('foo', {
+        events: {
+            click: function (evt) {
+            console.log('This entity was clicked!');
+            this.el.setAttribute('material', 'color', 'red');
+            }
+        }
+        });
+        
+    </script>
+  </head>
+  <body>
+    <a-scene>
+        <a-box
+        position="0 0 -10"
+        scale="4 4 4"
+        material="color: green"
+        foo
+        ></a-box>
+    </a-scene>
+  </body>
+</html>
