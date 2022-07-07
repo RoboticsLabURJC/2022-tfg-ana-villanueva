@@ -1,0 +1,90 @@
+<!--
+    Dibujar linea entre objetos para 
+    que se den eventos 
+
+    cursor="rayOrigin: mouse"
+    raycaster fuse="true"fuseTimeOut="2000" -> Raycaster manteniendo el cursor 
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@33264d8761b8d8ec2862407f32ba4a39e111bb67/dist/aframe-master.min.js"></script>
+    <script>
+        AFRAME.registerComponent('color-toggle', {
+            init: function() {
+                let el = this.el;
+                this.toggleColor = function() {
+                    el.setAttribute('color', 'black');
+                }
+                this.el.addEventListener('click', this.toggleColor);
+            },
+
+            remove: function() {
+                this.el.removeEventListener('click', this.toggleColor);
+            }
+
+        });
+    </script>
+
+    <script>
+        AFRAME.registerComponent('target-marker',{
+            init: function() {
+                let el = this.el;
+                this.addMarker = function(e) {
+                    let p = e.detail.intersection.point;
+                    let scene = document.querySelector('a-scene');
+
+                    let newMark = document.createElement('a-entity');
+                    newMark.setAttribute('geometry', {
+                        primitive: 'sphere'
+                    });
+
+                    newMark.setAttribute('material', 'color: red');
+                    newMark.setAttribute('scale', '.2 .2 .2');
+                    //Variable p captada a partir de los detalles del evento
+                    newMark.setAttribute('position', p);
+                    newMark.setAttribute('target-marker', {})
+
+                    scene.appendChild(newMark);
+                }
+
+                this.el.addEventListener('click', this.addMarker);
+            },
+
+            remove: function() {
+                this.el.removeEventListener('click', this.addMarker)
+            }
+        })
+    </script>
+  </head>
+  <body>
+    <a-scene cursor="rayOrigin: mouse">
+        <a-entity
+        id="rig">
+            <a-entity
+            camera
+            position="0 2 0"
+            look-controls
+            wasd-controls>
+                <a-cursor
+                id="cursor"
+                raycaster fuse="true"fuseTimeOut="2000">
+                </a-cursor>
+            </a-entity>
+        </a-entity>
+
+        <a-box
+        position="0 0 -10"
+        material="color: pink"
+        color-toggle></a-box>
+
+        <a-sphere
+        position="2 0 -10"
+        material="color: pink"
+        scale="4 4 4"
+        target-marker></a-sphere>
+
+    </a-scene>
+  </body>
+</html>
