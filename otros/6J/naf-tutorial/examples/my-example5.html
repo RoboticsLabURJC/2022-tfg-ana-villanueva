@@ -13,8 +13,8 @@
       /* global AFRAME, NAF */
       AFRAME.registerComponent('color-changer', {
         events: {
-          'click': function (evt) {
-            this.el.setAttribute('material', { color: this.getRandomColor() });
+          'mouseenter': function (evt) {
+            this.el.setAttribute('material', { color: `hsl(${Math.random() * 360}, 100%, 50%)` });
             NAF.utils.takeOwnership(this.el);
           }
         },
@@ -26,43 +26,6 @@
 
     </script>
 
-    <script>
-      /*
-      // see issue https://github.com/networked-aframe/networked-aframe/issues/267
-      NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
-      NAF.schemas.getComponents = (template) => {
-        if (!NAF.schemas.hasTemplate("#avatar-template")) {
-          NAF.schemas.add({
-            template: '#avatar-template',
-            components: [
-              'position',
-              'rotation',
-              {
-                selector: '.head',
-                component: 'material',
-                property: 'color'
-              }
-            ]
-          });
-        }
-        if (!NAF.schemas.hasTemplate("#sphere-template")) {
-          NAF.schemas.add({
-            template: '#sphere-template',
-            components: [
-              "position",
-              {
-                component: 'material',
-                property: 'color'
-              }
-            ]
-          });
-        }
-        const components = NAF.schemas.getComponentsOriginal(template);
-        return components;
-      }
-      */
-    </script>
-
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
     <!--<script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
@@ -72,11 +35,7 @@
   <body>
     <a-scene
       cursor="rayOrigin: mouse"
-      raycaster="objects:.raycastable"
-      networked-scene="
-        room: basic-persistent;
-        debug: true;
-        adapter: wseasyrtc">
+      raycaster="objects:.raycastable">
 
       <a-assets>
         <!-- Templates -->
