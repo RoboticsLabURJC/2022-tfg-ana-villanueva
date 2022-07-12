@@ -2,25 +2,53 @@
 <html>
   <head>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@33264d8761b8d8ec2862407f32ba4a39e111bb67/dist/aframe-master.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+    <script>
+        
+        // Registering component in foo-component.js
+        AFRAME.registerComponent('foo', {
+        events: {
+            click: function (evt) {
+            console.log('This entity was clicked!');
+            this.el.setAttribute('material', 'color', 'red');
+            }
+        }
+        });
+        
+    </script>
+
   </head>
   <body>
     <a-scene>
 
         <a-assets>
-            
+            <img id="sky" src="https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/otros/8J/sky.jpg">
         </a-assets>
 
+        <a-entity light="type: ambient; color: white"></a-entity>
+
+        <a-sphere
+        foo
+        material="color: yellow"
+        position="-2 4 -10"
+        animation="property: position; to: 2 4 -10; loop: true; dir: alternate">
+            <a-entity light="type: point; intensity: 0.75; color: yellow; distance: 50; decay: 2"></a-entity>
+        </a-sphere>
+
+        <a-sky
+        material="color: pink">
+        </a-sky>
+
         <a-plane
-        material="color: green"
+        material="color: white"
         position="0 0 -10"
         geometry="height: 5; width: 5"
         ></a-plane>
 
         <a-plane
-        material="color: red"
+        material="color: blue"
         position="0 0 -10"
-        geometry="height: 2.5; width: 2.5"
-        ></a-plane>
+        geometry="height: 2.5; width: 2.5"></a-plane>
 
         <a-plane
         material="color: yellow"
@@ -28,6 +56,11 @@
         geometry="height: 5; width: 5.5"
         rotation="-90 0 0"
         ></a-plane>
+
+        <a-text value="Hello World!"
+        position="-2.5 8 -10"
+        scale="5 5 5"
+        color="blue"></a-text>
 
     </a-scene>
   </body>

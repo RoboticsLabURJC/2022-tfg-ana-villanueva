@@ -76,7 +76,7 @@
                     };
                     el.setAttribute('animation', params);
                 }
-                this.el.eventListener('click', this.animateMove)
+                this.el.addeventListener('click', this.animateMove)
             },
             remove: function() {
                 this.el.removeEventListener('click', this.animateMove)
