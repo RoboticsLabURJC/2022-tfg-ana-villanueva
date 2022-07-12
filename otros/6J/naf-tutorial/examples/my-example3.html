@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -6,15 +7,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
     <script src="/easyrtc/easyrtc.js"></script>
     <script src="https://unpkg.com/networked-aframe@^0.10.0/dist/networked-aframe.min.js"></script>
-    
-    <!--
-      Randomizer component
-    -->
-    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
 
-    <!--
-      https://github.com/networked-aframe/networked-aframe
-    -->
+    <script>
+        // declare a component
+        AFRAME.registerComponent("click-detector", {
+         // called upon initialisation
+         init: function() {
+           // when a click is detected
+           this.el.addEventListener("click", () => {
+            // log "clicked"
+            console.log("clicked")
+           })
+         }
+        })
+    </script>
   </head>
   <body>
     <a-scene networked-scene>
@@ -23,7 +30,7 @@
            <a-sphere 
            class="head"
            random-color 
-           random-position
+           click-detector
            ></a-sphere>
         </template>
       </a-assets>
@@ -32,7 +39,12 @@
       networked="template: #avatar-template; attachTemplateToLocal:false;" 
       camera 
       wasd-controls 
-      look-controls></a-entity>
+      look-controls
+      ></a-entity>
+
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
 
     </a-scene>
   </body>
