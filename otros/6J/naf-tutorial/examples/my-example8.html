@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Networked-Aframe Scene</title>
+    <!--
+      Enlace básico A-frame - Imprescindible 
+    -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <!--
+      Enlace peticiones AJAX - Imprescindible 
+      Libreria socket.io
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
+    <!--
+      Enlace - Imprescindible 
+    -->
+    <script src="/easyrtc/easyrtc.js"></script>
+    <!--
+      Enlace networked - Imprescindible
+    -->
+    <script src="/dist/networked-aframe.js"></script>
+    <script>
+      // see issue https://github.com/networked-aframe/networked-aframe/issues/267
+      // Código imprescindible para la sincronización
+
+      NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
+      NAF.schemas.getComponents = (template) => {
+        if (!NAF.schemas.hasTemplate("#avatar-template")) {
+          NAF.schemas.add({
+            template: '#avatar-template',
+            components: [
+              'position',
+              'rotation',
+              {
+                selector: '.head',
+                component: 'material',
+                property: 'color'
+              }
+            ]
+          });
+        }
+        if (!NAF.schemas.hasTemplate("#orbit-template")) {
+          NAF.schemas.add({
+            template: '#orbit-template',
+            components: [
+              "position",
+              "rotation",
+              {
+                selector: '.orbita',
+              }
+            ]
+          });
+        }
+        const components = NAF.schemas.getComponentsOriginal(template);
+        return components;
+      }
+    </script>
+    <!--
+      Enlace obtener elementos aleatorios 
+        color 
+        posicion 
+        escala
+    -->
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <!--<script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
+    <script>
+        // Add event listener on keydown
+        document.addEventListener('keydown', (event) => {
+        var name = event.key;
+        var code = event.code;
+        // Show keydown
+        if (name == ' ') {
+            console.log('action')
+            //Añadir atributo push
+            var sceneEl = document.querySelector('a-scene');
+
+            var orbit = document.querySelector('#orbit');
+
+            this.orbit.setAttribute('animation', {
+                property: 'position',
+                from: '0 2 -10',
+                to: '0 -2 -10',
+                dur: 5000,
+                loop: true
+            });
+
+            NAF.utils.takeOwnership(this.orbit);
+
+        }else{
+            console.log('action unfound')
+        }
+        }, false);
+    </script>
+  </head>
+  <body>
+    <a-scene networked-scene>
+      <a-assets>
+        <template id="avatar-template">
+           <a-sphere 
+           class="head"
+           random-color 
+           position="0 0 0"
+           ></a-sphere>
+        </template>
+
+        <template id="orbit-template">
+            <a-entity
+            class="orbita"
+            geometry="primitive: sphere"
+            material="color: green"
+            position="-2 2 -10"
+            ></a-entity>
+        </template>
+
+      </a-assets>
+      
+      <a-entity id="player" 
+      networked="template: #avatar-template; attachTemplateToLocal:false;" 
+      camera 
+      wasd-controls 
+      look-controls></a-entity>
+
+      <a-entity
+      id="orbit"
+      networked="template:#orbit-template;networkId:orbit;persistent:true;owner:scene"
+>
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html>
