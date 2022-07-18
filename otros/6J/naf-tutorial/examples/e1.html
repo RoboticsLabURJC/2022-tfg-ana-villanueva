@@ -106,6 +106,7 @@
     <a-scene
       cursor="rayOrigin: mouse"
       raycaster="objects:.raycastable"
+
       networked-scene>
 
       <a-assets>
@@ -121,7 +122,9 @@
           ></a-entity>
         </template>
       </a-assets>
-
+      <!--
+        Permite la visualización del elemento en el navegador
+      -->
       <a-entity id="sphere" 
       networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene">
       </a-entity>
