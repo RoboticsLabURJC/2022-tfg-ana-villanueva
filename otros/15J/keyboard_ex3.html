@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script>
+        // Add event listener on keydown
+        document.addEventListener('keydown', (event) => {
+        var name = event.key;
+        var code = event.code;
+        // Show keydown
+        if (name == 'q') {
+            console.log('q')
+            document.addEventListener('keydown', (event) => {
+                var name = event.key;
+                var code = event.code;
+
+                if (name == 'e') {
+                    var sceneEl = document.querySelector('a-scene');
+                    var sphere = document.querySelector('a-sphere');
+                    //Adición de atributos a una entidad
+                    sphere.setAttribute('material', {
+                        color: 'red'
+                    });
+                }
+            }, false);
+
+        }else{
+            console.log('action unfound')
+        }
+        }, false);
+    </script>
+
+  </head>
+
+  <body>
+    <a-scene>
+        
+        <a-sphere
+        material="color: green"
+        position="-2 3 -10"
+        geometry="radius:2"></a-sphere>
+  
+    </a-scene>
+
+  </body>
+</html>
