@@ -54,6 +54,20 @@
         const components = NAF.schemas.getComponentsOriginal(template);
         return components;
       }
+      if (!NAF.schemas.hasTemplate("#counterA-template")) {
+          NAF.schemas.add({
+            template: '#counterA-template',
+            components: [
+              'position',
+              'rotation',
+              {
+                component: 'text',
+                property: 'value'
+              }
+            ]
+          });
+        }
+      
     </script>
     <!--
       Enlace obtener elementos aleatorios 
@@ -87,7 +101,16 @@
 
             NAF.utils.takeOwnership(this.orbit);
 
-        }else{
+        }else if (name == 'p') {
+            var counterA = document.querySelector('#counterA');
+
+            this.counterA.setAttribute('text', {
+                value: 'CHANGE'
+            });
+
+            NAF.utils.takeOwnership(this.counterA);
+
+        }else {
             console.log('action unfound')
         }
         }, false);
@@ -113,6 +136,14 @@
             ></a-entity>
         </template>
 
+        <template id="counterA-template">
+            <a-entity
+            class="contadorA"
+            text="width: 10; height: 10; color: red; value: Texto de prueba."
+            position="0 -2 -10"  
+            ></a-entity>
+        </template>
+
       </a-assets>
       
       <a-entity id="player" 
@@ -121,10 +152,12 @@
       wasd-controls 
       look-controls></a-entity>
 
-      <a-entity
-      id="orbit"
-      networked="template:#orbit-template;networkId:orbit;persistent:true;owner:scene"
->
+      <a-entity id="orbit"
+      networked="template:#orbit-template;networkId:orbit;persistent:true;owner:scene">
+      </a-entity>
+
+      <a-entity id="counterA"
+      networked="template:#counterA-template;networkId:counterA;persistent:true;owner:scene">
       </a-entity>
 
     </a-scene>
