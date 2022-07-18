@@ -44,9 +44,9 @@
             template: '#sphere-template',
             components: [
               "position",
+              "rotation",
               {
-                component: 'material',
-                property: 'color'
+                selector: '.esfera',
               }
             ]
           });
@@ -77,13 +77,6 @@
 
             var sphere = document.querySelector('#sphere');
 
-            //Adición de atributos a una entidad
-            this.sphere.setAttribute('material', {
-                color: 'blue'
-            });
-
-            NAF.utils.takeOwnership(this.sphere);
-
             this.sphere.setAttribute('animation', {
                 property: 'position',
                 from: '-2 2 -10',
@@ -113,6 +106,7 @@
 
         <template id="sphere-template">
             <a-entity
+            class="esfera"
             geometry="primitive: sphere"
             material="color: green"
             position="-2 2 -10"
