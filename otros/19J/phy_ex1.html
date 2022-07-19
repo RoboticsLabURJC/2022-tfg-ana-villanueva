@@ -30,8 +30,7 @@
   <body>
     <a-scene physics="driver: ammo; 
     debug: true; 
-    debugDrawMode: 1; 
-    gravity: 0" 
+    debugDrawMode: 1;"
     background="color: pink">
         
         <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
@@ -57,7 +56,9 @@
         <!-- Bola -->
 
         <a-sphere
-        ammo-body="type: dynamic; emitCollisionEvents: true;" 
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;
+        gravity: 0 -1.6 0;" 
         ammo-shape="type: sphere"
         position="5 -2 -10"
         color="blue"
@@ -65,16 +66,13 @@
 
         <a-sphere
         push
-        ammo-body="type: dynamic; emitCollisionEvents: true;"
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;
+        gravity: 0 -1.6 0;"
         ammo-shape="type: sphere"
         position="-5 3.5 -10"
         color="red"
         geometry="radius: 1"></a-sphere>
-
-
-
-
-    
     </a-scene>
 
   </body>
