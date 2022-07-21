@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Networked-Aframe</title>
-    <meta name="description" content="Networked-Aframe">
+    <title>Persistent sphere — Networked-Aframe</title>
+    <meta name="description" content="Dev Example — Networked-Aframe">
     <!--
       Enlace básico A-frame - Imprescindible 
     -->
@@ -20,7 +20,54 @@
     <!--
       Enlace networked - Imprescindible
     -->
-    <script src="/dist/networked-aframe.js"></script>    
+    <script src="/dist/networked-aframe.js"></script>
+    <script>
+      // see issue https://github.com/networked-aframe/networked-aframe/issues/267
+      // Código imprescindible para la sincronización
+
+      NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
+      NAF.schemas.getComponents = (template) => {
+        if (!NAF.schemas.hasTemplate("#avatar-template")) {
+          NAF.schemas.add({
+            template: '#avatar-template',
+            components: [
+              'position',
+              'rotation',
+              {
+                selector: '.head',
+                component: 'material',
+                property: 'color'
+              },
+              {
+                selector: '.head',
+                component: 'geometry',
+                property: 'primitive'
+              }
+            ]
+          });
+        }
+        if (!NAF.schemas.hasTemplate("#sphere-template")) {
+          NAF.schemas.add({
+            template: '#sphere-template',
+            components: [
+              "position",
+              {
+                component: 'material',
+                property: 'color'
+
+              },
+              {
+                component: 'geometry',
+                property: 'primitive'
+              }
+            ]
+          });
+        }
+        const components = NAF.schemas.getComponentsOriginal(template);
+        return components;
+      }
+    </script>
+    
     <!--
       Enlace obtener elementos aleatorios 
         color 
@@ -28,129 +75,37 @@
         escala
     -->
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
-    <!--
-        Otro
-    -->
+    <!--<script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
-
-    <!--
-        Enlaces fisicas
-    -->
-    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
-    
-    <!--
-        Sincronización 
-    -->
+    <script src="/js/spawn-in-circle.component.js"></script>
     <script>
-
-        // Código imprescindible para la sincronización
-        NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
-        NAF.schemas.getComponents = (template) => {
-          if (!NAF.schemas.hasTemplate("#sphere-template")) {
-            NAF.schemas.add({
-              template: '#sphere-template',
-              components: [
-                "position",
-                "rotation",
-                {
-                  component: 'material',
-                  property: 'color'
-  
-                }
-                // Modificación de otro componente
-                // { component: 'geometry', property: 'primitive' }
-              ]
-            });
+      /* global AFRAME, NAF */
+      AFRAME.registerComponent('color-changer', {
+        events: {
+          'click': function (evt) {
+            this.el.setAttribute('material', { color: this.getRandomColor() });
+            NAF.utils.takeOwnership(this.el);
           }
-
-          if (!NAF.schemas.hasTemplate("#floor-template")) {
-            NAF.schemas.add({
-              template: '#floor-template',
-              components: [
-                "position",
-                "rotation",
-                {
-                  component: 'material',
-                  property: 'color'
-  
-                }
-                // Modificación de otro componente
-                // { component: 'geometry', property: 'primitive' }
-              ]
-            });
-          }
-
-          const components = NAF.schemas.getComponentsOriginal(template);
-          return components;
+        },
+        getRandomColor: function() {
+          return `hsl(${Math.random() * 360}, 100%, 50%)`;
         }
-    </script>
-
-    <!--
-        JavaScript 
-    -->
-    <script>
-        AFRAME.registerComponent('phy', {
-          init: function() {
-                /* el -> Objeto */
-                var el = this.el;
-                console.log(el + " <-- EL")
-                el.addEventListener("collidestart", function () {
-                  const impulse = new Ammo.btVector3(1.5, 1.5, 0);
-                  const pos = new Ammo.btVector3(0, 0, 0);
-                  el.body.applyImpulse(impulse, pos);
-                  Ammo.destroy(impulse);
-                  Ammo.destroy(pos);
-            });
-          }
-        });
-      </script>
-
-    <script>
-        // Add event listener on keydown
-        document.addEventListener('keydown', (event) => {
-        var name = event.key;
-        var code = event.code;
-        
-        if (name == ' ') {
-            console.log('action')
-            //
-            var sphere = document.querySelector('#sphere');
-            var floor = document.querySelector('#floor');
-       
-            //Añadir físicas esfera
-            this.sphere.setAttribute('ammo-body',{
-                type: 'dynamic',
-                emitCollisionEvents: true
-            });
-
-            this.sphere.setAttribute('ammo-shape',{
-                type: 'sphere'
-            });
-
-            NAF.utils.takeOwnership(this.sphere);
-
-            //Añadir físicas suelo
-            this.floor.setAttribute('ammo-body',{
-                type: 'static'
-            });
-
-            this.floor.setAttribute('ammo-shape',{
-                type: 'box'
-            });
-
-            NAF.utils.takeOwnership(this.floor);
-
-        }else {
-            console.log('action unfound')
-        }
-        }, false);
+      });
     </script>
 
 
+    <script>
+      /* global AFRAME, NAF */
+      AFRAME.registerComponent('geometry-changer', {
+        events: {
+          'click': function (evt) {
+            this.el.setAttribute('geometry', { primitive: 'box' });
+            NAF.utils.takeOwnership(this.el);
+          }
+        }
+      });
+    </script>
   </head>
-
   <body>
     <a-scene
       physics="driver: ammo; debug: true; debugDrawMode: 1"
@@ -159,39 +114,43 @@
       raycaster="objects:.raycastable"
 
       networked-scene>
-
-      <!-- Templates -->
-
       <a-assets>
+        <!-- Templates -->
         <template id="sphere-template">
-          <a-entity 
-          class="raycastable" 
+          <a-entity class="raycastable" 
           geometry="primitive: sphere" 
           material="color: red" 
-          position="0 2 -10" 
-          ></a-entity>
+          color-changer 
+          geometry-changer 
+          position="0 0 -10"></a-entity>
         </template>
 
-        <template id="floor-template">
-            <a-entity
-            geometry="primitive: plane" 
-            material="color: blue" 
-            position="0 0 -10"
-            scale="15 15 15"
-            rotation="-90 0 0"></a-entity>
+        <!-- Avatar -->
+        <template id="avatar-template">
+          <a-entity class="avatar">
+            <a-sphere class="head"
+              scale="0.45 0.5 0.4"
+              position="0 0 -5"
+            ></a-sphere>
+          </a-entity>
         </template>
+        <!-- /Templates -->
       </a-assets>
-      <!--
-        Permmite visualizar el contenido en el navegador
-      -->
-      <a-entity id="sphere" 
-      networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene">
+
+      <a-entity id="player"
+        networked="template:#avatar-template;attachTemplateToLocal:false;"
+        camera
+        position="0 1.6 0"
+        spawn-in-circle="radius:3"
+        wasd-controls look-controls
+        >
+        <a-sphere class="head"
+          visible="false"
+          random-color
+        ></a-sphere>
       </a-entity>
 
-      <a-entity id="floor" 
-      networked="template:#floor-template;networkId:floor;persistent:true;owner:scene">
-      </a-entity>
-
+      <a-entity id="sphere" networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene"></a-entity>
     </a-scene>
   </body>
 </html>

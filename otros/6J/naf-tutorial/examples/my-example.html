@@ -1,38 +1,133 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My Networked-Aframe Scene</title>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
-    <script src="/easyrtc/easyrtc.js"></script>
-    <script src="https://unpkg.com/networked-aframe@^0.10.0/dist/networked-aframe.min.js"></script>
-    
+    <meta charset="utf-8">
+    <title>Networked-Aframe</title>
+    <meta name="description" content="Networked-Aframe">
     <!--
-      Randomizer component
+      Enlace básico A-frame - Imprescindible 
+    -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <!--
+      Enlace peticiones AJAX - Imprescindible 
+      Libreria socket.io
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
+    <!--
+      Enlace - Imprescindible 
+    -->
+    <script src="/easyrtc/easyrtc.js"></script>
+    <!--
+      Enlace networked - Imprescindible
+    -->
+    <script src="/dist/networked-aframe.js"></script>    
+    <!--
+      Enlace obtener elementos aleatorios 
+        color 
+        posicion 
+        escala
     -->
     <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <!--
+        Otro
+    -->
+    <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
+
+    <script>
+
+        // Código imprescindible para la sincronización
+        NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
+        NAF.schemas.getComponents = (template) => {
+          if (!NAF.schemas.hasTemplate("#sphere-template")) {
+            NAF.schemas.add({
+              template: '#sphere-template',
+              components: [
+                "position",
+                "rotation",
+                {
+                  component: 'material',
+                  property: 'color'
+  
+                }
+                // Modificación de otro componente
+                // { component: 'geometry', property: 'primitive' }
+              ]
+            });
+          }
+          const components = NAF.schemas.getComponentsOriginal(template);
+          return components;
+        }
+    </script>
 
     <!--
-      https://github.com/networked-aframe/networked-aframe
+        JavaScript 
     -->
+    <script>
+      /* global AFRAME, NAF */
+      AFRAME.registerComponent('color-changer', {
+        events: {
+          'click': function (evt) {
+            this.el.setAttribute('material', { color: this.getRandomColor() });
+            NAF.utils.takeOwnership(this.el);
+          }
+        },
+        getRandomColor: function() {
+          return `hsl(${Math.random() * 360}, 100%, 50%)`;
+        }
+      });
+    </script>
+
+    <script>
+        // Add event listener on keydown
+        document.addEventListener('keydown', (event) => {
+        var name = event.key;
+        var code = event.code;
+        
+        if (name == ' ') {
+            console.log('action')
+            //Añadir atributo push
+            var sceneEl = document.querySelector('a-scene');
+
+            var sphere = document.querySelector('#sphere');
+
+            this.sphere.setAttribute('material', {
+                color: 'black'
+            });
+
+            NAF.utils.takeOwnership(this.sphere);
+        }else {
+            console.log('action unfound')
+        }
+        }, false);
+    </script>
   </head>
+
   <body>
-    <a-scene networked-scene>
+    <a-scene
+      cursor="rayOrigin: mouse"
+      raycaster="objects:.raycastable"
+
+      networked-scene>
+
       <a-assets>
-        <template id="avatar-template">
-           <a-sphere 
-           class="head"
-           random-color 
-           random-position
-           ></a-sphere>
+        <!-- Templates -->
+        <template id="sphere-template">
+          <a-entity 
+          class="raycastable" 
+          geometry="primitive: sphere" 
+          material="color: red" 
+          position="0 0 -10"
+
+          color-changer 
+          ></a-entity>
         </template>
       </a-assets>
-      
-      <a-entity id="player" 
-      networked="template: #avatar-template; attachTemplateToLocal:false;" 
-      camera 
-      wasd-controls 
-      look-controls></a-entity>
+      <!--
+        Permite la visualización del elemento en el navegador
+      -->
+      <a-entity id="sphere" 
+      networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene">
+      </a-entity>
 
     </a-scene>
   </body>
