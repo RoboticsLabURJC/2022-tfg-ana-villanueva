@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Networked-Aframe</title>
+    <meta name="description" content="Networked-Aframe">
+    <!--
+      Enlace básico A-frame - Imprescindible 
+    -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <!--
+      Enlace peticiones AJAX - Imprescindible 
+      Libreria socket.io
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
+    <!--
+      Enlace - Imprescindible 
+    -->
+    <script src="/easyrtc/easyrtc.js"></script>
+    <!--
+      Enlace networked - Imprescindible
+    -->
+    <script src="/dist/networked-aframe.js"></script>    
+    <!--
+      Enlace obtener elementos aleatorios 
+        color 
+        posicion 
+        escala
+    -->
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <!--
+        Otro
+    -->
+    <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
+
+    <script>
+
+        // Código imprescindible para la sincronización
+        NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
+        NAF.schemas.getComponents = (template) => {
+          if (!NAF.schemas.hasTemplate("#sphere-template")) {
+            NAF.schemas.add({
+              template: '#sphere-template',
+              components: [
+                "position",
+                "rotation",
+                {
+                  component: 'material',
+                  property: 'color'
+  
+                }
+                // Modificación de otro componente
+                // { component: 'geometry', property: 'primitive' }
+              ]
+            });
+          }
+          const components = NAF.schemas.getComponentsOriginal(template);
+          return components;
+        }
+    </script>
+
+    <!--
+        JavaScript 
+    -->
+
+    <script>
+        // Add event listener on keydown
+        var mcolori = "white";
+        document.addEventListener('keydown', (event) => {
+          //Si mcolori = blanco --> Cambiar por el valor indicado
+          //Si mcolori != blanco --> No cambiar por el valor indicado
+          
+          var mcolor = prompt("Nota: Tu esfera se modificará al color indicado por teclado una vez pulses espacio.");
+          var name = event.key;
+          var code = event.code;
+          
+          if (name == ' ') {
+              console.log('mcolor: ' + mcolor)
+
+              if (mcolori == "white"){            
+                var sphere = document.querySelector('#sphere');
+                this.sphere.setAttribute('material', {
+                    color: mcolor
+                });
+                NAF.utils.takeOwnership(this.sphere);
+                mcolori = mcolor;
+              }
+
+          }else {
+              console.log('action unfound')
+              console.log('mcolori: ' + mcolori)
+          }
+        }, false);
+    </script>
+  </head>
+
+  <body>
+    <a-scene
+      cursor="rayOrigin: mouse"
+      raycaster="objects:.raycastable"
+
+      networked-scene>
+
+      <a-assets>
+        <!-- Templates -->
+        <template id="sphere-template">
+          <a-entity 
+          class="raycastable" 
+          geometry="primitive: sphere" 
+          material="color: white"
+          position="0 0 -10"
+
+          color-changer 
+          ></a-entity>
+        </template>
+      </a-assets>
+      <!--
+        Permite la visualización del elemento en el navegador
+      -->
+      <a-entity id="sphere" 
+      networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene">
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html>
