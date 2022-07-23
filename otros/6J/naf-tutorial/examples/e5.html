@@ -53,6 +53,21 @@
               ]
             });
           }
+          if (!NAF.schemas.hasTemplate("#box-template")) {
+            NAF.schemas.add({
+              template: '#box-template',
+              components: [
+                "position",
+                "rotation",
+                {
+                  component: 'material',
+                  property: 'color'  
+                }
+                // Modificación de otro componente
+                // { component: 'geometry', property: 'primitive' }
+              ]
+            });
+          }
           const components = NAF.schemas.getComponentsOriginal(template);
           return components;
         }
@@ -67,29 +82,41 @@
         document.addEventListener('keydown', (event) => {
           //Variable no posicionable fuera del evento
           var sphere = document.querySelector('#sphere');
-          //Variable permite lectura por teclado
-          var mcolor = prompt("Nota: Tu esfera se modificará al color indicado por teclado una vez pulses espacio.");
+          //Variable no posicionable fuera del evento
+          var box = document.querySelector('#box');
+
           //Variables determinar teclas
           var name = event.key;
           var code = event.code;
-          //Variable color
+
+          //Variable color circular + boxear
           var colorc = this.sphere.getAttribute('material').color;
-          console.log(colorc)
+          var colorb = this.box.getAttribute('material').color;
+
           //Acciones en funcion de la tecla          
           if (name == ' ') {
             //Si this.sphere.getAttribute('material').color == white -> Color no modificable
             //Si this.sphere.getAttribute('material').color != white -> Color modificable
-            if (colorc == 'white') {
-              this.sphere.setAttribute('material', {
-                  color: mcolor
-              });
-              NAF.utils.takeOwnership(this.sphere);
-              console.log("ENTRAS")
-            }else{
-              console.log("NO ENTRAS")
+            if (colorc == 'black' && colorb == "black") {
+                //Variable permite lectura por teclado
+                var mcolor = prompt("Nota: Tu esfera se modificará al color indicado por teclado una vez pulses espacio.");
+                this.sphere.setAttribute('material', {
+                    color: mcolor
+                });
+                NAF.utils.takeOwnership(this.sphere);
+                
+            }else if (colorc != "black" && colorb == "black"){
+                var mcolorb = prompt("Nota: Tu cuadrado se modificará al color indicado por teclado una vez pulses espacio.");
+                this.box.setAttribute('material', {
+                        color: mcolorb
+                    });
+                NAF.utils.takeOwnership(this.box);
             }
+ 
           }else { 
-              console.log('Color: ' + this.sphere.getAttribute('material').color)       
+            console.log('Color box: ' + this.box.getAttribute('material').color)       
+
+            console.log('Color sphere: ' + this.sphere.getAttribute('material').color)       
           }
         }, false);
     </script>
@@ -108,11 +135,20 @@
           <a-entity 
           class="raycastable" 
           geometry="primitive: sphere" 
-          material="color: white"
-          position="0 0 -10"
-
-          color-changer 
+          material="color: black"
+          position="-2 0 -10"
+          scale="1 1 1"
           ></a-entity>
+        </template>
+
+        <template id="box-template">
+            <a-entity 
+            class="raycastable" 
+            geometry="primitive: box" 
+            material="color: black"
+            position="2 0 -10"
+            scale="2 2 2"
+            ></a-entity>
         </template>
       </a-assets>
       <!--
@@ -120,6 +156,10 @@
       -->
       <a-entity id="sphere" 
       networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene">
+      </a-entity>
+
+      <a-entity id="box" 
+      networked="template:#box-template;networkId:box;persistent:true;owner:scene">
       </a-entity>
 
     </a-scene>
