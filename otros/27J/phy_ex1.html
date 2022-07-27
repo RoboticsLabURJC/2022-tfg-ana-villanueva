@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+  <script>
+    // Add event listener on keydown 
+    document.addEventListener('keydown', (event) => {
+          //Variable no posicionable fuera del evento
+          var blue = document.querySelector('#blue');
+          var red = document.querySelector('#red');
+          var linearDamping_ = 50;
+
+          //Variables determinar teclas
+          var name = event.key;
+          var code = event.code;
+
+          //Variable color circular + boxear
+          var slinearDamping = red.getAttribute('ammo-body').linearDamping;
+
+          //Acciones en funcion de la tecla          
+          if (name == ' ') {
+            red.setAttribute('ammo-body', {
+                linearDamping: '0.1'
+            });
+
+            red.setAttribute('material', {
+                color: 'green'
+            });
+          }else{
+            console.log(red.getAttribute('ammo-body').linearDamping);
+            console.log(blue.getAttribute('ammo-body').linearDamping);
+          }
+    }, false);
+  </script>
+
+  </head>
+
+  <body>
+    <a-scene physics="driver: ammo; 
+    debug: true; 
+    debugDrawMode: 1;"
+    background="color: pink">
+        
+        <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
+        <!-- Suelo -->
+        <a-plane 
+        ammo-body="type: static" 
+        ammo-shape="type: box"
+        position="0 -3 -10" rotation="-90 0 0" width="30" height="12"
+        color="yellow"></a-plane>
+
+        <!-- Bola -->
+
+        <a-sphere
+        id="blue"
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;
+        gravity: 0 -9.8 0;
+        linearDamping: 0.9" 
+        ammo-shape="type: sphere"
+
+        position="5 20 -10"
+        color="blue"
+        geometry="radius: 1"></a-sphere>
+
+        <a-sphere
+        id="red"
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;
+        gravity: 0 -9.8 0;
+        linearDamping: 0.9"
+        ammo-shape="type: sphere"
+
+        position="-5 20 -10"
+        color="red"
+        geometry="radius: 1"></a-sphere>
+    </a-scene>
+
+  </body>
+</html>
