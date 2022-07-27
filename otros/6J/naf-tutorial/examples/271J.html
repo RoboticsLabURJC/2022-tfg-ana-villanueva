@@ -103,8 +103,8 @@
             NAF.utils.takeOwnership(this.floor); 
 
             //Eliminar físicas esfera
-            sphere.removeAttribute('ammo-body');
-            sphere.removeAttribute('ammo-shape');
+            this.sphere.removeAttribute('ammo-body');
+            this.sphere.removeAttribute('ammo-shape');
             //Añadir físicas esfera
             this.sphere.setAttribute('ammo-body', {
                 type: 'dynamic',
