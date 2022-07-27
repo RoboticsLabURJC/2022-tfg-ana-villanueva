@@ -90,15 +90,32 @@
     <!--
         JavaScript 
     -->
+
       <script>
           // Add event listener on keydown 
           document.addEventListener('click', (event) => {
             //Variable no posicionable fuera del evento
+            var sphere = document.querySelector('#sphere');
             var floor = document.querySelector('#floor');
             this.floor.setAttribute('position', {
               x: 0, y: 3, z: 0
             });
             NAF.utils.takeOwnership(this.floor); 
+
+            //Eliminar físicas esfera
+            sphere.removeAttribute('ammo-body');
+            sphere.removeAttribute('ammo-shape');
+            //Añadir físicas esfera
+            this.sphere.setAttribute('ammo-body', {
+                type: 'dynamic',
+                emitCollisionEvents: true,
+                gravity: '0 -9.8 0',
+                linearDamping: '0.1'
+            });
+
+            this.sphere.setAttribute('ammo-shape',{
+                type: 'sphere'
+            });
     
           }, false);
       </script>
@@ -111,14 +128,18 @@
 
         if (name == ' ') {
             console.log('action')
+            //Variable permite lectura por teclado
+            var read = prompt("Introduce la gravedad");
             //
             var sphere = document.querySelector('#sphere');
             var floor = document.querySelector('#floor');
 
             //Añadir físicas esfera
-            this.sphere.setAttribute('ammo-body',{
+            this.sphere.setAttribute('ammo-body', {
                 type: 'dynamic',
-                emitCollisionEvents: true
+                emitCollisionEvents: true,
+                gravity: read,
+                linearDamping: '0.1'
             });
 
             this.sphere.setAttribute('ammo-shape',{
