@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Networked-Aframe</title>
+    <meta name="description" content="Networked-Aframe">
+    <!--
+      Enlace básico A-frame - Imprescindible 
+    -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <!--
+      Enlace peticiones AJAX - Imprescindible 
+      Libreria socket.io
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
+    <!--
+      Enlace - Imprescindible 
+    -->
+    <script src="/easyrtc/easyrtc.js"></script>
+    <!--
+      Enlace networked - Imprescindible
+    -->
+    <script src="/dist/networked-aframe.js"></script>    
+    <!--
+      Enlace obtener elementos aleatorios 
+        color 
+        posicion 
+        escala
+    -->
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <!--
+        Otro
+    -->
+    <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
+
+    <!--
+        Enlaces fisicas
+    -->
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+    <!--
+        Sincronización 
+    -->
+    <script>
+
+        // Código imprescindible para la sincronización
+        NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
+        NAF.schemas.getComponents = (template) => {
+          if (!NAF.schemas.hasTemplate("#sphere-template")) {
+            NAF.schemas.add({
+              template: '#sphere-template',
+              components: [
+                "position",
+                "rotation",
+                {
+                  component: 'material',
+                  property: 'color'
+
+                }
+                // Modificación de otro componente
+                // { component: 'geometry', property: 'primitive' }
+              ]
+            });
+          }
+
+          if (!NAF.schemas.hasTemplate("#floor-template")) {
+            NAF.schemas.add({
+              template: '#floor-template',
+              components: [
+                "position",
+                "rotation",
+                {
+                  component: 'material',
+                  property: 'color'
+
+                }
+                // Modificación de otro componente
+                // { component: 'geometry', property: 'primitive' }
+              ]
+            });
+          }
+
+          const components = NAF.schemas.getComponentsOriginal(template);
+          return components;
+        }
+    </script>
+
+    <!--
+        JavaScript 
+    -->
+    <script>
+        // Add event listener on keydown
+        document.addEventListener('keydown', (event) => {
+        var name = event.key;
+        var code = event.code;
+
+        /*
+            Espacio -> 
+                tipo : dynamic
+                emitCollisionEvent : true
+                gravity : 0 0 0
+                linearDamping : 0.1
+
+            Letra U -> 
+                tipo : dynamic
+                emitCollisionEvent : true
+                gravity : 0 -1 0
+                linearDamping : 0.1
+        */
+
+        if (name == ' ') {
+            var sphere = document.querySelector('#sphere');
+            var floor = document.querySelector('#floor');
+
+            this.sphere.removeAttribute('ammo-body');
+            this.sphere.removeAttribute('ammo-shape');
+
+            //Añadir físicas esfera
+            this.sphere.setAttribute('ammo-body', {
+                type: 'dynamic',
+                emitCollisionEvents: true,
+                gravity: "0 0.5 0",
+                linearDamping: '0.1'
+            });
+
+            this.sphere.setAttribute('ammo-shape',{
+                type: 'sphere'
+            });
+
+            NAF.utils.takeOwnership(this.sphere);
+
+            //Añadir físicas suelo
+            this.floor.setAttribute('ammo-body',{
+                type: 'static'
+            });
+
+            this.floor.setAttribute('ammo-shape',{
+                type: 'box'
+            });
+
+            NAF.utils.takeOwnership(this.floor);
+
+        }else if(name == 'u') {
+            
+            var sphere = document.querySelector('#sphere');
+            var floor = document.querySelector('#floor');
+
+            this.sphere.removeAttribute('ammo-body');
+            this.sphere.removeAttribute('ammo-shape');
+
+            //Añadir físicas esfera
+            this.sphere.setAttribute('ammo-body', {
+                type: 'dynamic',
+                emitCollisionEvents: true,
+                gravity: "0 -0.5 0",
+                linearDamping: '0.1'
+            });
+
+            this.sphere.setAttribute('ammo-shape',{
+                type: 'sphere'
+            });
+
+            NAF.utils.takeOwnership(this.sphere);
+
+            //Añadir físicas suelo
+            this.floor.setAttribute('ammo-body',{
+                type: 'static'
+            });
+
+            this.floor.setAttribute('ammo-shape',{
+                type: 'box'
+            });
+
+            NAF.utils.takeOwnership(this.floor);
+            
+        }else{
+            console.log(this.sphere.getAttribute('ammo-body').gravity);
+            console.log(this.sphere.getAttribute('ammo-body').linearDamping);
+        }
+        }, false);
+    </script>
+
+
+  </head>
+
+  <body>
+    <a-scene
+      physics="driver: ammo; debug: true; debugDrawMode: 1"
+
+      cursor="rayOrigin: mouse"
+      raycaster="objects:.raycastable"
+
+      networked-scene>
+
+      <!-- Templates -->
+
+      <a-assets>
+        <template id="sphere-template">
+          <a-entity 
+          class="raycastable" 
+          geometry="primitive: sphere" 
+          material="color: red" 
+          position="0 10 -10" 
+          ></a-entity>
+        </template>
+
+        <template id="floor-template">
+            <a-entity
+            geometry="primitive: plane" 
+            material="color: blue" 
+            position="0 0 -10"
+            scale="15 15 15"
+            rotation="-90 0 0"></a-entity>
+        </template>
+      </a-assets>
+      <!--
+        Permmite visualizar el contenido en el navegador
+      -->
+      <a-entity id="sphere" 
+      networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene">
+      </a-entity>
+
+      <a-entity id="floor" 
+      networked="template:#floor-template;networkId:floor;persistent:true;owner:scene">
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html> 
