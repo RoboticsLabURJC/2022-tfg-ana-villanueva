@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+  
+    <script>
+        AFRAME.registerComponent('push', {
+          init: function() {
+                var el = this.el;
+                el.addEventListener("collidestart", function () {
+                  const impulse = new Ammo.btVector3(0.1, 10, 1);
+                  const pos = new Ammo.btVector3(0, 0, 0);
+                  el.body.applyImpulse(impulse, pos);
+                  Ammo.destroy(impulse);
+                  Ammo.destroy(pos);
+            });
+          }
+        });
+      </script>
+
+  </head>
+
+  <body>
+    <a-scene physics="driver: ammo; 
+    debug: true; 
+    debugDrawMode: 1;"
+    background="color: pink">
+        
+        <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
+        <!-- Suelo -->
+        <a-plane 
+        ammo-body="type: static" 
+        ammo-shape="type: box"
+        position="0 0 -10" 
+        rotation="-90 0 0" 
+        scale="15 15 15"
+        material="color: blue">
+        </a-plane>
+
+        <!-- Bola -->
+
+        <a-sphere
+        id="blue"
+        push
+
+        position="2 20 -10"
+        color="red"
+        geometry="radius: 1"
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;
+        gravity: 0 -9.8 0;
+        linearDamping: 0.1" 
+        ammo-shape="type: sphere">
+        </a-sphere>
+
+        <a-entity
+        id="red"
+        push
+
+        position="-2 30 -10"
+        material="color: green"
+        geometry="radius: 1"
+        geometry="primitive: box"
+
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;
+        gravity: 0 -9.8 0;
+        linearDamping: 0.1"
+        ammo-shape="type: box">
+        </a-entity>
+
+    </a-scene>
+
+  </body>
+</html>
