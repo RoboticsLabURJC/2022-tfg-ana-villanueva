@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+  </head>
+
+  <body>
+    <a-scene 
+    background="color: pink">
+        
+        <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
+        <!-- Suelo -->
+        <a-plane 
+
+        position="0 -3 -10" rotation="-90 0 0" width="30" height="12"
+        color="yellow"></a-plane>
+
+        <!-- Bola -->
+
+        <a-entity
+        position="5 2 -10">
+            <a-sphere
+            id="blue"
+            color="blue"
+            geometry="radius: 1"></a-sphere>
+        </a-entity>
+
+
+
+
+    </a-scene>
+
+  </body>
+</html>

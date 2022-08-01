@@ -1,0 +1,27 @@
+<!--
+    https://www.youtube.com/results?search_query=a+frame+animation <-- Elevada complejidad
+-->
+
+<!DOCTYPE html>
+
+<script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+
+<a-scene>
+    <a-box position="-2 0 -10" color="tomato" depth="2" height="2" width="2">
+        <a-animation attribute="rotation"
+               dur="3000"
+               to="0 360 0"
+               repeat="indefinite">
+        </a-animation>
+     </a-box>
+
+     <a-sphere position="4 0 -10" color="green" geometry="radius: 1.4">
+      <a-animation
+      attribute="position"
+      dur="3000"
+      to="1 0 -10"
+      repeat="indefinite"></a-animation>
+     </a-sphere>
+     <a-sky color="lightyellow"></a-sky>
+     <a-camera position='0 0 3' user-height='0'></a-camera>
+</a-scene>

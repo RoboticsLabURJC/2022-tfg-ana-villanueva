@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+  </head>
+
+  <body>
+    <a-scene physics="driver: ammo; 
+    debug: true; 
+    debugDrawMode: 1;"
+    background="color: pink">
+        
+        <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
+        <!-- Suelo -->
+        <a-plane 
+        ammo-body="type: static" 
+        ammo-shape="type: box"
+        position="0 -3 -10" rotation="-90 0 0" width="30" height="12"
+        color="yellow"></a-plane>
+
+        <!-- Bola -->
+
+        <a-sphere
+        id="blue"
+        position="5 20 -10"
+        color="blue"
+        geometry="radius: 1">
+            <a-entity
+            ammo-body="type: dynamic; 
+            emitCollisionEvents: true;
+            gravity: 0 -9.8 0;
+            linearDamping: 0.9" 
+            ammo-shape="type: sphere">
+            </a-entity>
+        </a-sphere>
+
+        <a-entity
+        geometry="primitive: box"
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;
+        gravity: 0 -1.8 0;
+        linearDamping: 0.9">
+            <a-sphere
+            id="red"
+            ammo-body="type: dynamic"
+            ammo-shape="type: sphere"
+            position="-5 20 -10"
+            color="red"
+            geometry="radius: 1"></a-sphere>
+        </a-entity>
+
+    </a-scene>
+
+  </body>
+</html>

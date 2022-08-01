@@ -106,58 +106,72 @@
     document.addEventListener('keydown', (event) => {
     var name = event.key;
     var code = event.code;
-    // Show keydown
-    if (name == ' ') {
-        console.log('action')
-        /*
-        var sooner_pos_x;
-        var later_pos_x;
+      // Show keydown
+      if (name == ' ') {
+          console.log('KEYDOWN');
+          
+          var floor = document.querySelector('#floor');
+          var sphere = document.querySelector('#sphere');
+          var movement = document.querySelector('#position');
+    
+          this.sphere.setAttribute('ammo-body', {
+                  type: 'dynamic',
+                  emitCollisionEvents: true,
+                  gravity: "0 -9.8 0"
+          });
 
-        var sooner_pos_y;
-        var later_pos_y;
+          this.sphere.setAttribute('ammo-shape',{
+                  type: 'sphere'
+          });
 
-        var sooner_pos_z;
-        var later_pos_z;
-        */
+          this.floor.setAttribute('ammo-body',{
+                  type: 'static'
+          });
 
-        var floor = document.querySelector('#floor');
-        var sphere = document.querySelector('#sphere');
-        var movement = document.querySelector('#position');
-/*
-        this.sphere.setAttribute('ammo-body', {
-                type: 'dynamic',
-                emitCollisionEvents: true,
-                gravity: "0 -9.8 0"
-        });
+              this.floor.setAttribute('ammo-shape',{
+                  type: 'box'
+          });
 
-        this.sphere.setAttribute('ammo-shape',{
-                type: 'sphere'
-        });
+      }
 
-        this.floor.setAttribute('ammo-body',{
-                type: 'static'
-        });
-
-            this.floor.setAttribute('ammo-shape',{
-                type: 'box'
-        });
-*/
-        this.movement.setAttribute('position', {
-                x: 4, y: 4, z: -10
-        });
-
-        NAF.utils.takeOwnership(this.movement);
-
-    }else{
-      console.log(this.movement.getAttribute('position').x + " " + this.movement.getAttribute('position').y + " " + this.movement.getAttribute('position').z)
-
-      console.log(this.sphere.getAttribute('position').x + " " + this.sphere.getAttribute('position').y + " " + this.sphere.getAttribute('position').z)
-    }
     }, false);
 
 
 
+    // Add event listener on keyup
+    document.addEventListener('keyup', (event) => {
+    var name = event.key;
+    var code = event.code;
+    var flag = false;
+      // Show keydown
+      if (name == ' ') {
+        console.log("KEYUP");
+        //var flag = false;
+        
+        var floor = document.querySelector('#floor');
+        var sphere = document.querySelector('#sphere');
+        var movement = document.querySelector('#position');
+
+        var intervalID = setInterval(myCallback, 0.01);
+
+        }
+
+    }, false);
+
+    
+
+    function myCallback() {
+        // Tu código debe ir aquí
+        // Los parámetros son totalmente opcionales
+        this.movement.setAttribute('position', {
+                x: this.sphere.getAttribute('position').x, y: this.sphere.getAttribute('position').y, z: this.sphere.getAttribute('position').z
+        });
+        NAF.utils.takeOwnership(this.movement);    
+    }
+
+
  </script>
+
 
 
   </head>
@@ -176,6 +190,7 @@
       <a-assets>
         <template id="sphere-template">
           <a-entity 
+          explode
           class="raycastable" 
           geometry="primitive: sphere" 
           material="color: red"   
@@ -184,7 +199,7 @@
 
         <template id="movement-template">
           <a-entity
-          position="0 4 -10"></a-entity>
+          position="0 10 -10"></a-entity>
         </template>
 
         <template id="floor-template">
