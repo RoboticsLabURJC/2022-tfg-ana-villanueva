@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+  </head>
+
+  <script>
+    AFRAME.registerComponent('log', {
+        
+
+        init: function () {
+            
+            
+            
+        },
+        
+        tick: function () {
+            var sphere = document.querySelector('#sphere');
+            var sphereR = document.querySelector('#sphereR');
+            
+            var move = document.querySelector('#move');
+            var moveR = document.querySelector('#moveR');
+
+            var worldPosition = new THREE.Vector3();
+            
+            moveR.setAttribute('position', {
+                x: sphere.object3D.getWorldPosition(worldPosition).x + 2,
+                y: sphere.object3D.getWorldPosition(worldPosition).y,
+                z: sphere.object3D.getWorldPosition(worldPosition).z
+            });
+        }
+
+        
+    });
+
+  </script>
+
+  <body>
+    <a-scene physics="driver: ammo; 
+    debug: true; 
+    debugDrawMode: 1;"
+    background="color: pink">
+        
+        <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
+        <!-- Suelo -->
+        <a-plane 
+        ammo-body="type: static" 
+        ammo-shape="type: box"
+        position="0 -3 -10" rotation="-90 0 0" width="30" height="12"
+        color="yellow"></a-plane>
+
+        <!-- Bola -->
+
+        <a-entity
+        id="move"
+        position="0 4 -10"
+        >
+            <a-entity
+            id="sphere"
+            geometry="primitive: sphere"
+            material="color: blue"
+            ammo-body="type: dynamic; 
+            emitCollisionEvents: true;" 
+            ammo-shape="type: sphere">
+            </a-entity>
+        </a-entity>
+
+        <a-entity
+        id="moveR"
+        position="2 4 -10"
+        log>
+            <a-entity
+            id="sphereR"
+            geometry="primitive: sphere"
+            material="color: red">
+            </a-entity>
+        </a-entity>
+
+
+
+
+
+    </a-scene>
+
+  </body>
+</html>

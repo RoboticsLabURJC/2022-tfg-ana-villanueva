@@ -102,6 +102,39 @@
     -->
 
 <script>
+  AFRAME.registerComponent('log', {
+        init: function () {
+          var floor = document.querySelector('#floor');
+          var sphere = document.querySelector('#sphere');
+          var movement = document.querySelector('#movement');
+          console.log(sphere.getAttribute('position').x)
+                  
+        },
+        
+        tick: function () {
+
+          exchange()
+        }
+
+        
+    });
+
+    function exchange() {
+      console.log("ENTRASTE EN FUNCION")
+      var floor = document.querySelector('#floor');
+      var sphere = document.querySelector('#sphere');
+      var movement = document.querySelector('#movement');
+      
+      var worldPosition = new THREE.Vector3();
+
+      this.movement.setAttribute('position', {
+        x: this.sphere.object3D.getWorldPosition(worldPosition).x,
+        y: this.sphere.object3D.getWorldPosition(worldPosition).y,
+        z: this.sphere.object3D.getWorldPosition(worldPosition).z
+      });
+      NAF.utils.takeOwnership(this.movement); 
+    }
+    
     // Add event listener on keydown
     document.addEventListener('keydown', (event) => {
     var name = event.key;
@@ -112,7 +145,7 @@
           
           var floor = document.querySelector('#floor');
           var sphere = document.querySelector('#sphere');
-          var movement = document.querySelector('#position');
+          var movement = document.querySelector('#movement');
     
           this.sphere.setAttribute('ammo-body', {
                   type: 'dynamic',
@@ -135,42 +168,7 @@
       }
 
     }, false);
-
-
-
-    // Add event listener on keyup
-    document.addEventListener('keyup', (event) => {
-    var name = event.key;
-    var code = event.code;
-    var flag = false;
-      // Show keydown
-      if (name == ' ') {
-        console.log("KEYUP");
-        //var flag = false;
-        
-        var floor = document.querySelector('#floor');
-        var sphere = document.querySelector('#sphere');
-        var movement = document.querySelector('#position');
-
-        var intervalID = setInterval(myCallback, 0.01);
-
-        }
-
-    }, false);
-
-    
-
-    function myCallback() {
-        // Tu código debe ir aquí
-        // Los parámetros son totalmente opcionales
-        this.movement.setAttribute('position', {
-                x: this.sphere.getAttribute('position').x, y: this.sphere.getAttribute('position').y, z: this.sphere.getAttribute('position').z
-        });
-        NAF.utils.takeOwnership(this.movement);    
-        NAF.utils.takeOwnership(this.sphere);    
-    }
-
-
+ 
  </script>
 
 
@@ -200,7 +198,8 @@
 
         <template id="movement-template">
           <a-entity
-          position="0 10 -10"></a-entity>
+          position="0 10 -10"
+          log></a-entity>
         </template>
 
         <template id="floor-template">
