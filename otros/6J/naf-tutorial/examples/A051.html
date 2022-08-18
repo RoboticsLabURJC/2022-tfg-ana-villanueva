@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <meta charset="UTF-8" />
+</head>
+<script>
+window.addEventListener('load', initScene)
+
+function initScene(){
+    var one = document.querySelector('#one');
+    var two = document.querySelector('#two');
+    var button = document.querySelector('#button');
+
+
+}
+</script>
+
+<body>
+  <a-scene>
+    <a-sphere position="0 2 -10"color="red"></a-sphere>
+    <a-plane color="green" position="0 0 -5" rotation="-90 0 0" width="20" height="20"></a-plane>
+    <a-sky color="#aaf"></a-sky>
+  </a-scene>
+  <div>
+    <form style="z-index: 100; position: absolute; left: 10px; top: 10px">
+      <input id="one" type="text"/><br/>
+      <input id="two" type="number"/><br/>
+      <input id="button" type="submit"/>
+    </form>
+  </div>
+</body>
+
+</html>

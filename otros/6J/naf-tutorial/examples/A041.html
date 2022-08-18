@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Networked-Aframe</title>
+    <meta name="description" content="Networked-Aframe">
+    <!--
+      Enlace básico A-frame - Imprescindible 
+    -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <!--
+      Enlace peticiones AJAX - Imprescindible 
+      Libreria socket.io
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
+    <!--
+      Enlace - Imprescindible 
+    -->
+    <script src="/easyrtc/easyrtc.js"></script>
+    <!--
+      Enlace networked - Imprescindible
+    -->
+    <script src="/dist/networked-aframe.js"></script>    
+    <!--
+      Enlace obtener elementos aleatorios 
+        color 
+        posicion 
+        escala
+    -->
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <!--
+        Otro
+    -->
+    <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
+
+    <!--
+        Enlaces fisicas
+    -->
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+    <!--
+        Sincronización 
+    -->
+    <script>
+
+        // Código imprescindible para la sincronización
+        NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
+        NAF.schemas.getComponents = (template) => {
+          if (!NAF.schemas.hasTemplate("#text-template")) {
+            NAF.schemas.add({
+              template: '#text-template',
+              components: [
+                "position",
+                "rotation",
+                {
+                  component: 'text',
+                  property: 'value'
+                }
+              ]
+            });
+          }
+
+          if (!NAF.schemas.hasTemplate("#sphere-template")) {
+            NAF.schemas.add({
+              template: '#sphere-template',
+              components: [
+                "position",
+                "rotation",
+                {
+                  component: 'material',
+                  property: 'color'
+
+                }
+                // Modificación de otro componente
+                // { component: 'geometry', property: 'primitive' }
+              ]
+            });
+          }
+
+          if (!NAF.schemas.hasTemplate("#box-template")) {
+            NAF.schemas.add({
+              template: '#box-template',
+              components: [
+                "position",
+                "rotation",
+                {
+                  component: 'material',
+                  property: 'color'
+
+                }
+                // Modificación de otro componente
+                // { component: 'geometry', property: 'primitive' }
+              ]
+            });
+          }
+
+          if (!NAF.schemas.hasTemplate("#floor-template")) {
+            NAF.schemas.add({
+              template: '#floor-template',
+              components: [
+                "position"
+              ]
+            });
+          }
+
+          const components = NAF.schemas.getComponentsOriginal(template);
+          return components;
+        }
+
+
+    </script>
+
+    <!--
+        JavaScript 
+    -->    
+    <script>
+      AFRAME.registerComponent('push', {
+        init: function() {
+              var el = this.el;
+              el.addEventListener("collidestart", function () {
+                const impulse = new Ammo.btVector3(0.1, 10, 1);
+                const pos = new Ammo.btVector3(0, 0, 0);
+                el.body.applyImpulse(impulse, pos);
+                Ammo.destroy(impulse);
+                Ammo.destroy(pos);
+          });
+        }
+      });
+    </script>
+
+
+
+
+  </head>
+
+  <body>
+
+    <a-scene
+      physics="driver: ammo; debug: true; debugDrawMode: 1"
+
+      cursor="rayOrigin: mouse"
+      raycaster="objects:.raycastable"
+
+      networked-scene>
+
+      <!-- Templates -->
+
+      <a-assets>
+        <template id="text-template">
+          <a-entity 
+          class="raycastable" 
+          text="value: No value; color: red; width: 10; height: 10"
+          position="0 3 -5"
+          ></a-entity>
+        </template>
+
+
+
+        <template id="sphere-template">
+          <a-entity 
+          push
+          class="raycastable" 
+          geometry="primitive: sphere" 
+          material="color: red" 
+          position="2 20 -20" 
+
+            ammo-body="type: dynamic; 
+            emitCollisionEvents: true;
+            gravity: 0 -9.8 0;
+            linearDamping: 0.1" 
+            ammo-shape="type: sphere"
+          ></a-entity>
+        </template>
+
+        <template id="box-template">
+          <a-entity 
+          push
+          class="raycastable" 
+          geometry="primitive: box" 
+          material="color: green" 
+          position="-2 30 -20"
+          
+            ammo-body="type: dynamic; 
+            emitCollisionEvents: true;
+            gravity: 0 -9.8 0;
+            linearDamping: 0.1" 
+            ammo-shape="type: box"
+          ></a-entity>
+        </template>
+
+        <template id="floor-template">
+            <a-entity
+            geometry="primitive: plane" 
+            material="color: blue" 
+            position="0 0 -20"
+            scale="15 15 15"
+            rotation="-90 0 0"
+            
+            ammo-body="type: static" 
+            ammo-shape="type: box"
+            ></a-entity>
+        </template>
+      </a-assets>
+      <!--
+        Permmite visualizar el contenido en el navegador
+      -->
+      <a-entity id="text" 
+      networked="template:#text-template;networkId:text;persistent:true;owner:scene">
+      </a-entity>
+
+      <a-entity id="sphere" 
+      networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene">
+      </a-entity>
+
+      <a-entity id="box" 
+      networked="template:#box-template;networkId:box;persistent:true;owner:scene">
+      </a-entity>
+
+      <a-entity id="floor" 
+      networked="template:#floor-template;networkId:floor;persistent:true;owner:scene">
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html> 
