@@ -14,17 +14,6 @@
     debug: true; 
     debugDrawMode: 1;"
     background="color: pink">
-        <a-assets>
-            <a-asset-item id="car" src="assets/car.glb"></a-asset-item>
-        </a-assets>
-        <!--
-            
-        -->
-        <a-entity position="0 0 -10" gltf-model="#car" rotation="0 90 0"
-        ammo-body="type: dynamic; 
-        emitCollisionEvents: true;" 
-        ammo-shape="type: box; fit: manual;"
-        ></a-entity>
         <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
         <!-- Suelo -->
         <a-plane 
@@ -34,16 +23,23 @@
         color="yellow"></a-plane>
 
         <!-- Bola -->
-
-        <a-sphere
-        id="blue"
-        position="0 20 -10"
-        color="red"
-        geometry="radius: 1"
+        <a-entity geometry="primitive: box" material="color: red" position="0 5 -10"
         ammo-body="type: dynamic; 
         emitCollisionEvents: true;" 
-        ammo-shape="fit: all">           
-        </a-sphere>
+        ammo-shape="type: box"
+        >
+            <a-entity geometry="primitive: box" material="opacity: 0.0" scale="2 0.5 1" position="0 -0.5 0"
+            ammo-body="type: dynamic; 
+            emitCollisionEvents: true;" 
+            ammo-shape="type: box"
+            ></a-entity>
+            <a-entity geometry="primitive: box" material="color: blue" scale="2 0.5 1" position="0 0.5 0"
+            ammo-body="type: dynamic; 
+            emitCollisionEvents: true;" 
+            ammo-shape="type: box"
+            ></a-entity>
+        </a-entity>
+
     </a-scene>
 
   </body>
