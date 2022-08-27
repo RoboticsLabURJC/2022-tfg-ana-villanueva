@@ -40,21 +40,11 @@
 
         <!-- Bola -->
         <a-entity geometry="primitive: sphere" material="color: red" position="0 5 -10"
-        ammo-body="type: dynamic; 
-        emitCollisionEvents: true;" 
+        ammo-body="type: kinematic" 
         ammo-shape="type: sphere"
-        push
+        
         >
-            <a-entity geometry="primitive: box" material="opacity: 0.0" scale="2 0.5 1" position="0 -0.5 0"
-            ammo-body="type: dynamic; 
-            emitCollisionEvents: true;" 
-            ammo-shape="type: box"
-            ></a-entity>
-            <a-entity geometry="primitive: box" material="color: blue" scale="2 0.5 1" position="0 0.5 0"
-            ammo-body="type: dynamic; 
-            emitCollisionEvents: true;" 
-            ammo-shape="type: box"
-            ></a-entity>
+           
         </a-entity>
 
     </a-scene>

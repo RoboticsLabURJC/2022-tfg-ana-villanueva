@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+    <script>
+        // Registering component in foo-component.js
+        AFRAME.registerComponent('foo', {
+        schema: {},
+        init: function () {},
+        update: function () {},
+        tick: function () {
+            var blue = document.querySelector('#blue');
+            var red = document.querySelector('#red');
+
+            if (red.getAttribute('position') != blue.getAttribute('position')){
+                console.log("entra")
+                red.setAttribute('position', {
+                    x: blue.getAttribute('position').x ,
+                    y: blue.getAttribute('position').y + 3,
+                    z: blue.getAttribute('position').z 
+                })
+            }
+        },
+        remove: function () {},
+        pause: function () {},
+        play: function () {}
+        });
+    </script>
+
+    <script>
+    AFRAME.registerComponent('push', {
+      init: function() {
+            /* el -> Objeto */
+            var el = this.el;
+            console.log(el + " <-- EL")
+            el.addEventListener("collidestart", function () {
+              const impulse = new Ammo.btVector3(-4, 0, 0);
+              const pos = new Ammo.btVector3(0, 0, 0);
+              el.body.applyImpulse(impulse, pos);
+              Ammo.destroy(impulse);
+              Ammo.destroy(pos);
+        });
+      }
+    });
+  </script>
+  </head>
+
+  <body>
+    <a-scene physics="driver: ammo; 
+    debug: true; 
+    debugDrawMode: 1;"
+    background="color: pink"
+    foo>
+
+        <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
+        <!-- Suelo -->
+        <a-plane 
+        ammo-body="type: static" 
+        ammo-shape="type: box"
+        position="0 -3 -10" rotation="-90 0 0" width="30" height="12"
+        color="yellow"></a-plane>
+
+        <!-- Dinamico -->
+
+        <a-box
+        id="blue"
+        position="0 9 -10"
+        material="color: blue"
+        scale="4 4 4"
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;" 
+        ammo-shape="fit: all"
+        >
+        </a-box>
+
+        <a-box
+        id="red"
+        position="0 10 -10"
+        material="color: red"
+        scale="2 2 2"
+        ammo-body="type: kinematic;" 
+        ammo-shape="fit: all"
+        >
+        </a-box>
+
+        <a-entity geometry="primitive: sphere" material="color: red" position="4 10 -10"
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;" 
+        ammo-shape="type: sphere"
+        push
+        ></a-entity>
+
+
+    </a-scene>
+
+  </body>
+</html>
