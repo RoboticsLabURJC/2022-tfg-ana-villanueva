@@ -67,7 +67,23 @@
               template: '#sphere-template',
               components: [
                 "position",
-                
+                "rotation",
+                {
+                  component: 'material',
+                  property: 'color'
+
+                }
+                // Modificación de otro componente
+                // { component: 'geometry', property: 'primitive' }
+              ]
+            });
+          }
+
+          if (!NAF.schemas.hasTemplate("#box-template")) {
+            NAF.schemas.add({
+              template: '#box-template',
+              components: [
+                "position",
                 "rotation",
                 {
                   component: 'material',
@@ -99,90 +115,6 @@
     <!--
         JavaScript 
     -->    
-    <script>
-        var gravedad = "0 -9.8 0";
-
-        // Add event listener on keydown
-        document.addEventListener('keydown', (event) => {
-          var name = event.key;
-          var code = event.code;
-          var sphere = document.querySelector('#sphere');
-          var box = document.querySelector('#box');
-          var floor = document.querySelector('#floor');
-          var text = document.querySelector('#text');
-
-          if(name=="o"){
-            
-            //Esfera
-            this.sphere.removeAttribute('ammo-body');
-            this.sphere.removeAttribute('ammo-shape');
-            this.sphere.setAttribute('ammo-body', {
-                    type: 'dynamic',
-                    emitCollisionEvents: true,
-                    gravity: gravedad,
-            });
-
-            this.sphere.setAttribute('ammo-shape',{
-                    type: 'sphere'
-            });
-
-            NAF.utils.takeOwnership(this.sphere);
-//Suelo
-            this.floor.setAttribute('ammo-body',{
-              type: 'static'
-            });
-            this.floor.setAttribute('ammo-shape',{
-              type: 'box'
-            });
-            NAF.utils.takeOwnership(this.floor);
-            }
-
-        }, false);
-
-    </script>
-
-    <script>
-        document.addEventListener("collidestart", function(){
-            var sphere = document.querySelector('#sphere');
-            setTimeout(function(){
-                    var sphere = document.querySelector('#sphere');
-                    this.sphere.removeAttribute('ammo-body');
-                    this.sphere.removeAttribute('ammo-shape');
-                    this.sphere.setAttribute('ammo-body', {
-                            type: 'dynamic',
-                            emitCollisionEvents: true,
-                            gravity: "0 9.8 0",
-                    });
-
-                    this.sphere.setAttribute('ammo-shape',{
-                            type: 'sphere'
-                    });
-
-                    NAF.utils.takeOwnership(this.sphere);
-
-                    setTimeout(function(){
-                    var sphere = document.querySelector('#sphere');
-                    this.sphere.removeAttribute('ammo-body');
-                    this.sphere.removeAttribute('ammo-shape');
-                    this.sphere.setAttribute('ammo-body', {
-                            type: 'dynamic',
-                            emitCollisionEvents: true,
-                            gravity: "0 -9.8 0",
-                    });
-
-                    this.sphere.setAttribute('ammo-shape',{
-                            type: 'sphere'
-                    });
-
-                    NAF.utils.takeOwnership(this.sphere);
-                    },2000);
-                },2000);
-        })
-
-
-   </script>
-
-
 
   </head>
 
@@ -202,20 +134,28 @@
         <template id="text-template">
           <a-entity 
           class="raycastable" 
-          text="value: No value; color: red; width: 10; height: 10"
+          text="value: false; color: red; width: 10; height: 10"
           position="0 3 -5"
           ></a-entity>
         </template>
 
-
-
         <template id="sphere-template">
           <a-entity 
+          push
           class="raycastable" 
           geometry="primitive: sphere" 
           material="color: red" 
-          position="2 5 -20" 
+          position="0 5 -20" 
+          ></a-entity>
+        </template>
+
+        <template id="box-template">
+          <a-entity 
           push
+          class="raycastable" 
+          geometry="primitive: box" 
+          material="color: green" 
+          position="-2 30 -20" 
           ></a-entity>
         </template>
 
@@ -239,10 +179,96 @@
       networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene">
       </a-entity>
 
+      <a-entity id="box" 
+      networked="template:#box-template;networkId:box;persistent:true;owner:scene">
+      </a-entity>
+
       <a-entity id="floor" 
       networked="template:#floor-template;networkId:floor;persistent:true;owner:scene">
       </a-entity>
 
     </a-scene>
   </body>
+
+  <script>
+          var text = document.querySelector('#text');
+          var sphere = document.querySelector('#sphere');
+          var floor = document.querySelector('#floor');
+          var individual = "false";
+          //Evento carga de la escena completada
+          document.addEventListener('keydown', (event) => {
+            var name = event.key;
+            var code = event.code;
+            /*
+              Variable 'comun' determina el comportamiento maestro-esclavo
+              Aquel navegador que pulse la tecla 'm' en primer lugar sera el que se comporte como maestro
+            */
+            if (name == "m") {
+              if (this.text.getAttribute('text').value == "false") {
+                individual = "true";
+                this.text.setAttribute('text',{
+                        value: 'true'
+                });
+                NAF.utils.takeOwnership(this.text);
+
+                console.log(individual);
+              }else{
+                individual == "false";      
+              }
+            }
+
+            if (name == " ") {
+              if (individual == "true") {
+                this.sphere.removeAttribute('ammo-body');
+                this.sphere.removeAttribute('ammo-shape');
+                this.sphere.setAttribute('ammo-body', {
+                        type: 'dynamic',
+                        emitCollisionEvents: true
+                });
+
+                this.sphere.setAttribute('ammo-shape',{
+                        type: 'sphere'
+                });
+
+                this.sphere.setAttribute('rebote',{
+                       
+                });
+
+                NAF.utils.takeOwnership(this.sphere);
+                }
+                }
+
+                this.floor.setAttribute('ammo-body',{
+                  type: 'static'
+                });
+                this.floor.setAttribute('ammo-shape',{
+                  type: 'box'
+                });
+                NAF.utils.takeOwnership(this.floor);
+          });
+
+      AFRAME.registerComponent('rebote', {
+        init: function() {
+              var el = this.el;
+              el.addEventListener("collideend", function () {
+                sleep(2000);
+                const impulse = new Ammo.btVector3(0, 10, 0);
+                const pos = new Ammo.btVector3(0, 0, 0);
+                el.body.applyImpulse(impulse, pos);
+                Ammo.destroy(impulse);
+                Ammo.destroy(pos);
+            
+              });
+        }
+      });
+
+      function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+          if ((new Date().getTime() - start) > milliseconds) {
+          break;
+          }
+        }
+      }
+  </script>
 </html> 
