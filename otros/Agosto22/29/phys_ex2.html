@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+  </head>
+
+  <body>
+    <a-scene physics="driver: ammo; 
+    debug: true; 
+    debugDrawMode: 1;"
+    background="color: pink">
+        <a-assets>
+            <a-asset-item id="car" src="car_squaremesh.glb"></a-asset-item>
+        </a-assets>
+        <!--
+            
+        -->
+        <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
+
+        <!-- Suelo -->
+        <a-plane 
+        ammo-body="type: static" 
+        ammo-shape="type: box"
+        position="0 -3 -10" rotation="-90 0 0" width="30" height="12"
+        color="yellow"></a-plane>
+
+        <!-- Bola -->
+        <a-entity
+        geometry="primitive: box;"
+        material="opacity: 0.0"
+        position="0 10 -10"
+        ammo-body="type: static" 
+        ammo-shape="fit:manual; halfExtents:40 0.5 40; offset:0 -4 0">
+            <a-entity
+            gltf-model="#car"
+        
+            ></a-entity>
+        </a-entity>
+
+    </a-scene>
+
+  </body>
+</html>
