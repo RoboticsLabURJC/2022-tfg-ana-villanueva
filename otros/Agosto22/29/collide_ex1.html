@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+
+    <script>
+    AFRAME.registerComponent('push', {
+      init: function() {
+            /* el -> Objeto */
+            var el = this.el;
+            console.log(el + " <-- EL")
+            el.addEventListener("collidestart", function () {
+              const impulse = new Ammo.btVector3(10, 0, 0);
+              const pos = new Ammo.btVector3(0, 0, 0);
+              el.body.applyImpulse(impulse, pos);
+              Ammo.destroy(impulse);
+              Ammo.destroy(pos);
+        });
+      }
+    });
+  </script>
+  </head>
+
+  <body>
+    <a-scene physics="driver: ammo; 
+    debug: true; 
+    debugDrawMode: 1;"
+    background="color: pink"
+    foo>
+
+        <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
+        <!-- Suelo -->
+        <a-plane 
+        ammo-body="type: static" 
+        ammo-shape="type: box"
+        position="0 -3 -10" rotation="-90 0 0" width="30" height="12"
+        color="yellow"
+        push></a-plane>
+
+        <!-- Dinamico -->
+
+        <a-entity geometry="primitive: sphere" material="color: red" position="4 10 -10"
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;" 
+        ammo-shape="type: sphere"
+
+        ></a-entity>
+
+
+    </a-scene>
+
+  </body>
+</html>
