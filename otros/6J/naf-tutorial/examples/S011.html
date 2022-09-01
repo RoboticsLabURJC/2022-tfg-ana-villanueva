@@ -66,8 +66,16 @@
             NAF.schemas.add({
               template: '#sphere-template',
               components: [
-                "position",
-                "rotation",
+                {
+                    //Mejora precisión posición
+                    component: "position",
+                    requiresNetworkUpdate: NAF.utils.vectorRequiresUpdate(0.9)
+                },
+                {
+                    //Mejora precisión rotación
+                    component: "rotation",
+                    requiresNetworkUpdate: NAF.utils.vectorRequiresUpdate(0.001)
+                },
                 {
                   component: 'material',
                   property: 'color'
