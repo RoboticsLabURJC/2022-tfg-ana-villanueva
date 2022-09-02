@@ -69,12 +69,12 @@
                 {
                     //Mejora precisión posición
                     component: "position",
-                    requiresNetworkUpdate: NAF.utils.vectorRequiresUpdate(0.9)
+                    requiresNetworkUpdate: NAF.utils.vectorRequiresUpdate(0)
                 },
                 {
                     //Mejora precisión rotación
                     component: "rotation",
-                    requiresNetworkUpdate: NAF.utils.vectorRequiresUpdate(0.001)
+                    requiresNetworkUpdate: NAF.utils.vectorRequiresUpdate(0.5)
                 },
                 {
                   component: 'material',
@@ -245,7 +245,7 @@
                                 type: 'sphere'
                         });
                         NAF.utils.takeOwnership(this.sphere);
-                    },4000);
+                    },1000);
 
                     this.floor.setAttribute('ammo-body',{
                         type: 'static'
