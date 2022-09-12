@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Networked-Aframe</title>
+    <meta name="description" content="Networked-Aframe">
+    <!--
+      Enlace básico A-frame - Imprescindible 
+    -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <!--
+      Enlace peticiones AJAX - Imprescindible 
+      Libreria socket.io
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script>
+    <!--
+      Enlace - Imprescindible 
+    -->
+    <script src="/easyrtc/easyrtc.js"></script>
+    <!--
+      Enlace networked - Imprescindible
+    -->
+    <script src="/dist/networked-aframe.js"></script>    
+    <!--
+      Enlace obtener elementos aleatorios 
+        color 
+        posicion 
+        escala
+    -->
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <!--
+        Otro
+    -->
+    <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
+
+    <!--
+        Enlaces fisicas
+    -->
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+
+    <!--
+        Sincronización 
+    -->
+    <script>
+
+        // Código imprescindible para la sincronización
+        NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
+        NAF.schemas.getComponents = (template) => {
+          if (!NAF.schemas.hasTemplate("#sphere-template")) {
+            NAF.schemas.add({
+              template: '#sphere-template',
+              components: [
+                {
+                    //Mejora precisión posición
+                    component: "position",
+                    requiresNetworkUpdate: NAF.utils.vectorRequiresUpdate(0.001)
+                },
+                {
+                    //Mejora precisión rotación
+                    component: "rotation",
+                    requiresNetworkUpdate: NAF.utils.vectorRequiresUpdate(0.5)
+                },
+                {
+                  component: 'material',
+                  property: 'color'
+
+                }
+                // Modificación de otro componente
+                // { component: 'geometry', property: 'primitive' }
+              ]
+            });
+          }
+
+          const components = NAF.schemas.getComponentsOriginal(template);
+          return components;
+        }
+
+
+    </script>
+
+    <!--
+        JavaScript 
+    -->    
+
+  </head>
+
+  <body>
+
+    <a-scene
+      physics="driver: ammo; debug: true; debugDrawMode: 1"
+
+      cursor="rayOrigin: mouse"
+      raycaster="objects:.raycastable"
+
+      networked-scene>
+
+      <!-- Templates -->
+
+      <a-assets>
+        <template id="sphere-template">
+            <a-entity
+            material="color: blue" position="0 0 -10" geometry="primitive: sphere; radius: 1.5">
+      
+            
+              <a-sphere
+              material="color: red" position="-1.5 -0.5 0"
+              ></a-sphere>
+              <a-sphere
+              material="color: green" position="-2.5 -0.5 0"
+              ></a-sphere>
+              <a-sphere
+              material="color: red" position="-3.5 -0.5 0"
+              ></a-sphere>
+              <a-sphere
+              material="color: green" position="-4.5 -0.5 0"
+              ></a-sphere>
+              <a-sphere
+              material="color: red" position="-5.5 -0.5 0"
+              ></a-sphere>
+              <a-sphere
+              material="color: green" position="-6.5 -0.5 0"
+              ></a-sphere>
+      
+              <a-sphere
+              material="color: black" position="1 0.5 -0.5" radius="0.5"
+              ></a-sphere>
+              <a-sphere
+              material="color: black" position="1 0.5 0.5" radius="0.5"
+              ></a-sphere>
+      
+              
+            </a-entity>
+        </template>
+
+      </a-assets>
+      <!--
+        Permmite visualizar el contenido en el navegador
+      -->
+
+
+      <a-entity id="sphere" 
+      networked="template:#sphere-template;networkId:sphere;persistent:true;owner:scene">
+      </a-entity>
+
+
+    </a-scene>
+  </body>
+</html> 
