@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+
+    <script src="https://mixedreality.mozilla.org/ammo.js/builds/ammo.wasm.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+  </head>
+
+  <body>
+    <a-scene physics="driver: ammo; 
+    debug: true; 
+    debugDrawMode: 1;"
+    background="color: pink">
+
+        <!--
+            
+        -->
+        <a-entity camera position="0 3 5" look-controls wasd-controls></a-entity>
+
+        <!-- Suelo -->
+        <a-plane 
+        ammo-body="type: static;
+        collisionFilterGroup: 2; collisionFilterMask: 3" 
+        ammo-shape="type: box"
+        position="0 -3 -10" rotation="-90 0 0" width="30" height="12"
+        color="yellow"></a-plane>
+
+        <!-- Bola -->
+
+        <a-sphere 
+        material="color: blue" position="0 0 -10" radius="1.5"
+        ammo-body="type: dynamic; 
+        emitCollisionEvents: true;
+        collisionFilterGroup: 1; collisionFilterMask: 2" 
+        ammo-shape="fit: all">
+  
+        
+          <a-sphere
+          material="color: red" position="-1.5 -0.5 0"
+          ammo-body="type: dynamic; 
+          emitCollisionEvents: true;
+          collisionFilterGroup: 1; collisionFilterMask: 2" 
+          ammo-shape="fit: all"
+          ></a-sphere>
+          <a-sphere
+          material="color: green" position="-2.5 -0.5 0"
+          ammo-body="type: dynamic; 
+          emitCollisionEvents: true;
+          collisionFilterGroup: 1; collisionFilterMask: 2" 
+          ammo-shape="fit: all"
+          ></a-sphere>
+          <a-sphere
+          material="color: red" position="-3.5 -0.5 0"
+          ammo-body="type: dynamic; 
+          emitCollisionEvents: true;
+          collisionFilterGroup: 1; collisionFilterMask: 2" 
+          ammo-shape="fit: all"
+          ></a-sphere>
+          <a-sphere
+          material="color: green" position="-4.5 -0.5 0"
+          ammo-body="type: dynamic; 
+          emitCollisionEvents: true;
+          collisionFilterGroup: 1; collisionFilterMask: 2" 
+          ammo-shape="fit: all"
+          ></a-sphere>
+          <a-sphere
+          material="color: red" position="-5.5 -0.5 0"
+          ammo-body="type: dynamic; 
+          emitCollisionEvents: true;
+          collisionFilterGroup: 1; collisionFilterMask: 2" 
+          ammo-shape="fit: all"
+          ></a-sphere>
+          <a-sphere
+          material="color: green" position="-6.5 -0.5 0"
+          ammo-body="type: dynamic; 
+          emitCollisionEvents: true;
+          collisionFilterGroup: 1; collisionFilterMask: 2" 
+          ammo-shape="fit: all"
+          ></a-sphere>
+  
+          <a-sphere
+          material="color: black" position="1 0.5 -0.5" radius="0.5"
+          ></a-sphere>
+          <a-sphere
+          material="color: black" position="1 0.5 0.5" radius="0.5"
+          ></a-sphere>
+  
+          
+        </a-sphere>
+
+    </a-scene>
+
+  </body>
+</html>
