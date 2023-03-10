@@ -1,0 +1,29 @@
+---
+title: "Semana 31. MiniWebsim"
+categories:
+  - Etapa de Entrenamiento
+  - Marzo
+tags:
+  - MiniWebsim
+youtubeId: 
+---
+
+Los objetivos de la semana son:
+
+> Modificar entidades raycaster
+> Modificar movimiento coche
+> Finalizar capítulos 
+
+1. Modificar entidades raycaster
+
+Nuevos raycaster que no desaparecen como hacian los anteriores. 
+
+(Nuevos raycaster)[https://raw.githubusercontent.com/RoboticsLabURJC/2022-tfg-ana-villanueva/main/docs/images/Captura%20de%20pantalla%202023-03-10%20083121.png]
+
+2. Modificar movimiento coche
+
+El movimiento obtenido hasta ahora es el único que he podido lograr.
+
+3. Finalizar capítulos
+
+Capítulos finalizados por mi parte. A la espera de retroalimentación. 
